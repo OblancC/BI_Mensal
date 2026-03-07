@@ -160,15 +160,15 @@ trib_vol = vol.idxmax() if not vol.empty else "—"
 # ─────────────────────────────────────────────
 # HEADER
 # ─────────────────────────────────────────────
+subtitulo = f"Análise tributária · {ano_min}–{ano_max}"
+if regiao_sel  != "Todas": subtitulo += f" · {regiao_sel}"
+if tributo_sel != "Todos": subtitulo += f" · {tributo_sel}"
+
 st.markdown(f"""
 <div class="page-header">
     <div class="eyebrow">Ministério da Fazenda · Receita Federal do Brasil</div>
     <h1>Resultado da Arrecadação Federal</h1>
-    <div class="subtitle">
-        Análise tributária · {ano_min}–{ano_max}
-        {'· ' + regiao_sel if regiao_sel != 'Todas' else ''}
-        {'· ' + tributo_sel if tributo_sel != 'Todos' else ''}
-    </div>
+    <div class="subtitle">{subtitulo}</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -507,11 +507,11 @@ with s3:
         <div class="finding-num">03 · Recomendações</div>
         <div class="finding-title">Ações orientadas à decisão</div>
         <div class="finding-body">
-        <b>Diversificação:</b> estados com mais de 50% de receita em um único tributo
-        devem ser alvo de políticas de diversificação da base tributária (Q8).<br><br>
-        <b>Monitoramento:</b> acompanhar CIDE-Combustíveis trimestralmente como proxy
-        de choques econômicos regionais — seu comportamento antecipa variações no PIB.<br><br>
-        <b>Planejamento:</b> usar a sazonalidade histórica de janeiro e março para
+        Diversificação: estados com mais de 50% de receita em um único tributo
+        devem ser alvo de políticas de diversificação da base tributária (Q8).
+        Monitoramento: acompanhar CIDE-Combustíveis trimestralmente como proxy
+        de choques econômicos regionais — seu comportamento antecipa variações no PIB.
+        Planejamento: usar a sazonalidade histórica de janeiro e março para
         calibrar projeções de receita e evitar subestimação do caixa federal no 1º trimestre (Q9).
         </div>
     </div>""", unsafe_allow_html=True)
