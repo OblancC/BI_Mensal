@@ -227,9 +227,9 @@ fig_saz.update_layout(
     paper_bgcolor='rgba(0,0,0,0)',
     plot_bgcolor='rgba(0,0,0,0)',
     font=dict(color='#111111', family='Source Sans 3, sans-serif'),
-    xaxis=dict(gridcolor='#e0e0e0', tickmode='linear', tick0=1, dtick=1,
+    xaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111'), tickmode='linear', tick0=1, dtick=1,
                tickvals=list(range(1,13)), ticktext=list(NOMES_MES.values())),
-    yaxis=dict(gridcolor='#e0e0e0'),
+    yaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
     legend=dict(orientation='h', y=-0.2, title=None, font=dict(size=11, color='#111111')),
     margin=dict(t=20, b=60, l=60, r=20)
 )
@@ -258,7 +258,7 @@ with c1:
         yaxis_ticksuffix=' B', coloraxis_showscale=False,
         paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
         font=dict(color='#111111', family='Source Sans 3, sans-serif'),
-        xaxis=dict(gridcolor='#e0e0e0'), yaxis=dict(gridcolor='#e0e0e0'),
+        xaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')), yaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
         margin=dict(t=20, b=40, l=60, r=20)
     )
     st.plotly_chart(fig_ranking, width="stretch")
@@ -277,11 +277,11 @@ with c2:
     )
     fig_tributos.update_traces(textfont_color='#111111', textfont_size=11)
     fig_tributos.update_layout(
-        yaxis={'categoryorder':'total ascending', 'gridcolor':'#e0e0e0'}, height=400,
+        yaxis={'categoryorder':'total ascending', 'gridcolor':'#e0e0e0', 'tickfont':{'color':'#111111'}, 'title_font':{'color':'#111111'}}, height=400,
         coloraxis_showscale=False,
         paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
         font=dict(color='#111111', family='Source Sans 3, sans-serif'),
-        xaxis=dict(gridcolor='#e0e0e0'),
+        xaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
         margin=dict(t=20, b=40, l=160, r=20)
     )
     st.plotly_chart(fig_tributos, width="stretch")
@@ -393,11 +393,11 @@ if not df_peso.empty:
 
 fig_beb.update_layout(
     xaxis_title='Mês/Ano', yaxis_title='% da Arrecadação Total',
-    xaxis=dict(tickformat='%b/%Y', tickangle=-45),
+    xaxis=dict(tickformat='%b/%Y', tickangle=-45, tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
     height=500, hovermode='x unified', legend_title='Estação',
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
     font=dict(color='#111111', family='Source Sans 3, sans-serif'),
-    yaxis=dict(gridcolor='#e0e0e0'),
+    yaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
     margin=dict(t=20, b=80, l=60, r=20)
 )
 st.plotly_chart(fig_beb, width="stretch")
@@ -441,7 +441,7 @@ fig_dom.update_layout(
     margin=dict(t=40, b=40, l=50, r=250),
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='white',
     font=dict(color='#111111', family='Source Sans 3, sans-serif'),
-    xaxis=dict(gridcolor='#e5e7eb', range=[0, 105])
+    xaxis=dict(gridcolor='#e5e7eb', range=[0, 105], tickfont=dict(color='#111111'), title_font=dict(color='#111111'))
 )
 st.plotly_chart(fig_dom, width="stretch")
 
@@ -469,7 +469,7 @@ fig_empilhado.update_layout(
     legend=dict(orientation='h', yanchor='bottom', y=1.02),
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
     font=dict(color='#111111', family='Source Sans 3, sans-serif'),
-    xaxis=dict(gridcolor='#e0e0e0'), yaxis=dict(gridcolor='#e0e0e0'),
+    xaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')), yaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
     margin=dict(t=60, b=40, l=60, r=20)
 )
 st.plotly_chart(fig_empilhado, width="stretch")
