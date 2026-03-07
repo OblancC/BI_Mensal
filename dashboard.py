@@ -296,18 +296,31 @@ ufs_disp = sorted(df['sigla_uf'].unique())
 ufs_sel = st.multiselect("Estados", ufs_disp, default=ufs_disp[:5])
 df_evol_uf = df[df['sigla_uf'].isin(ufs_sel)].groupby(['ano','mes','sigla_uf'])['valor_B'].sum().reset_index()
 
+anos_evol = sorted(df_evol_uf['ano'].unique())
+n_anos = len(anos_evol)
+n_cols = 3
+n_rows = -(-n_anos // n_cols)  # teto da divisão
+
 fig_evol = px.line(
     df_evol_uf, x='mes', y='valor_B', color='sigla_uf',
-    facet_col='ano', facet_col_wrap=4,
-    labels={'valor_B':'R$ Bi','mes':'Mês','sigla_uf':'UF'}
+    facet_col='ano', facet_col_wrap=n_cols,
+    labels={'valor_B':'R$ Bi','mes':'Mês','sigla_uf':'UF'},
+    height=320 * n_rows
 )
 fig_evol.update_layout(
     yaxis_ticksuffix=' B',
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
     font=dict(color='#111111', family='Source Sans 3, sans-serif'),
-    margin=dict(t=40, b=40, l=60, r=20)
+    margin=dict(t=40, b=40, l=60, r=20),
+    legend=dict(orientation='h', y=-0.05, font=dict(size=11, color='#111111'))
 )
-fig_evol.update_xaxes(tickmode='linear', tick0=1, dtick=3)
+fig_evol.update_xaxes(
+    tickmode='linear', tick0=1, dtick=2,
+    tickfont=dict(color='#111111'), title_font=dict(color='#111111')
+)
+fig_evol.update_yaxes(
+    tickfont=dict(color='#111111'), title_font=dict(color='#111111')
+)
 st.plotly_chart(fig_evol, width="stretch")
 
 # ─────────────────────────────────────────────
