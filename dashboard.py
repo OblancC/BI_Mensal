@@ -266,11 +266,11 @@ with c2:
         color_continuous_scale='Blues'
     )
     fig_tributos.update_layout(
-        yaxis={'categoryorder':'total ascending'}, height=400,
+        yaxis={'categoryorder':'total ascending', 'gridcolor':'#ece9e4'}, height=400,
         coloraxis_showscale=False,
         paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
         font=dict(color='#666', family='Source Sans 3, sans-serif'),
-        xaxis=dict(gridcolor='#ece9e4'), yaxis=dict(gridcolor='#ece9e4'),
+        xaxis=dict(gridcolor='#ece9e4'),
         margin=dict(t=20, b=40, l=160, r=20)
     )
     st.plotly_chart(fig_tributos, width="stretch")
