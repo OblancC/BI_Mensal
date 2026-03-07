@@ -32,6 +32,8 @@ html, body, [class*="css"] { font-family: 'Source Sans 3', sans-serif; backgroun
 .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: #aaa; border-bottom: 1px solid #e5e2dd; padding-bottom: 5px; margin-bottom: 4px; margin-top: 28px; }
 .chart-title { font-family: 'Bitter', serif; font-size: 1.05rem; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
 .chart-desc { font-size: 0.78rem; color: #888; margin-bottom: 10px; font-weight: 300; }
+.question-badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: #1a1a1a; color: #faf9f7; padding: 2px 8px; border-radius: 2px; margin-bottom: 6px; }
+.question-text { font-size: 0.82rem; color: #444; font-style: italic; margin-bottom: 8px; line-height: 1.5; border-left: 2px solid #d0cdc8; padding-left: 10px; }
 .finding { border-top: 1px solid #d0cdc8; padding: 16px 0; }
 .finding-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: #bbb; margin-bottom: 4px; }
 .finding-title { font-family: 'Bitter', serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: #1a1a1a; }
@@ -203,9 +205,10 @@ with k4:
 # GRÁFICO 1 — Sazonalidade (Cell [27])
 # Sazonalidade da Arrecadação por mês/ano
 # ─────────────────────────────────────────────
-st.markdown('<div class="section-label">Sazonalidade</div>', unsafe_allow_html=True)
-st.markdown('<div class="chart-title">Sazonalidade da Arrecadação</div>', unsafe_allow_html=True)
-st.markdown('<div class="chart-desc">Arrecadação mensal em R$ bilhões por ano</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-label">Análise de Sazonalidade</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-badge">Questão 9</div>', unsafe_allow_html=True)
+st.markdown('<div class="chart-title">Sazonalidade da Arrecadação Federal</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-text">Qual mês do ano historicamente concentra mais arrecadação?</div>', unsafe_allow_html=True)
 
 df_sazonalidade = df.groupby(['ano','mes'])['valor_B'].sum().reset_index()
 fig_saz = px.line(
@@ -231,12 +234,13 @@ st.plotly_chart(fig_saz, width="stretch")
 # ─────────────────────────────────────────────
 # GRÁFICO 2 + 3 — Top 5 UFs e Tributos (Cells [29] e [31])
 # ─────────────────────────────────────────────
-st.markdown('<div class="section-label">Ranking</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-label">Ranking de Arrecadação</div>', unsafe_allow_html=True)
 c1, c2 = st.columns(2)
 
 with c1:
+    st.markdown('<div class="question-badge">Questão 6</div>', unsafe_allow_html=True)
     st.markdown('<div class="chart-title">Top 5 Estados com Maior Arrecadação</div>', unsafe_allow_html=True)
-    st.markdown('<div class="chart-desc">Acumulado do período selecionado</div>', unsafe_allow_html=True)
+    st.markdown('<div class="question-text">Quais UFs são responsáveis por mais de 50% da arrecadação total do país?</div>', unsafe_allow_html=True)
     df_ranking = df.groupby('sigla_uf')['valor_B'].sum().reset_index()
     df_top5 = df_ranking.sort_values('valor_B', ascending=False).head(5)
     fig_ranking = px.bar(
@@ -255,8 +259,9 @@ with c1:
     st.plotly_chart(fig_ranking, width="stretch")
 
 with c2:
+    st.markdown('<div class="question-badge">Questões 4 · 5</div>', unsafe_allow_html=True)
     st.markdown('<div class="chart-title">Participação por Tipo de Tributo</div>', unsafe_allow_html=True)
-    st.markdown('<div class="chart-desc">Total acumulado em R$ bilhões</div>', unsafe_allow_html=True)
+    st.markdown('<div class="question-text">Como cada tributo contribui para a arrecadação total? Como o IPI-Fumo se comporta em relação aos outros setores?</div>', unsafe_allow_html=True)
     df_tributo_rank = df.groupby('descricao')['valor_B'].sum().reset_index()
     df_tributo_rank = df_tributo_rank.sort_values('valor_B', ascending=True)
     fig_tributos = px.bar(
@@ -278,9 +283,10 @@ with c2:
 # ─────────────────────────────────────────────
 # GRÁFICO 4 — Evolução mensal por UF (Cell [36])
 # ─────────────────────────────────────────────
-st.markdown('<div class="section-label">Evolução por UF</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-label">Evolução Geográfica</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-badge">Questão 1</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Evolução Mensal da Arrecadação por UF</div>', unsafe_allow_html=True)
-st.markdown('<div class="chart-desc">Selecione UFs específicas para comparar</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-text">Qual a evolução mensal da arrecadação federal total por Unidade da Federação (UF)?</div>', unsafe_allow_html=True)
 
 ufs_disp = sorted(df['sigla_uf'].unique())
 ufs_sel = st.multiselect("Estados", ufs_disp, default=ufs_disp[:5])
@@ -304,8 +310,9 @@ st.plotly_chart(fig_evol, width="stretch")
 # GRÁFICO 5 — Sazonalidade IPI (Cell [43])
 # ─────────────────────────────────────────────
 st.markdown('<div class="section-label">IPI Setorial</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-badge">Questões 4 · 5</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Sazonalidade IPI: Fumo vs Automóveis vs Bebidas</div>', unsafe_allow_html=True)
-st.markdown('<div class="chart-desc">Escalas independentes por setor para melhor visualização das variações</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-text">Existe sazonalidade identificável na arrecadação de IPI (Automóveis e Bebidas) ao longo dos anos? Como o IPI-Fumo se comporta em relação aos outros setores industriais?</div>', unsafe_allow_html=True)
 
 setores_ipi = ['AUTOMOVEIS','BEBIDAS','FUMO']
 df_setores = df[df['descricao'].str.contains('|'.join(setores_ipi), na=False)]
@@ -331,8 +338,9 @@ st.plotly_chart(fig_ipi, width="stretch")
 # GRÁFICO 6 — IPI Bebidas por estação (Cell [47])
 # ─────────────────────────────────────────────
 st.markdown('<div class="section-label">Sazonalidade Estacional</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-badge">Questão 7</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Peso % do IPI-Bebidas na Arrecadação Total</div>', unsafe_allow_html=True)
-st.markdown('<div class="chart-desc">Comparação entre estações do ano — hemisfério sul</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-text">Qual o peso do IPI-Bebidas na arrecadação total nos meses de verão vs inverno no recorte temporal de 2016 a 2024?</div>', unsafe_allow_html=True)
 
 df_completo_f = df.copy()
 df_completo_f['estacao'] = df_completo_f['mes'].map(ESTACOES)
@@ -392,8 +400,9 @@ st.plotly_chart(fig_beb, width="stretch")
 # GRÁFICO 7 — Tributo dominante por UF (Cell [49])
 # ─────────────────────────────────────────────
 st.markdown('<div class="section-label">Dependência Tributária por UF</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-badge">Questão 8</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Concentração de Receita por UF — Qual tributo domina cada estado?</div>', unsafe_allow_html=True)
-st.markdown('<div class="chart-desc">Linha vermelha: limiar de dependência em 50%</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-text">Quais UFs são mais dependentes de um único tributo (concentração de receita)? Linha vermelha marca o limiar de 50%.</div>', unsafe_allow_html=True)
 
 total_por_uf   = df.groupby('sigla_uf')['valor'].sum().reset_index().rename(columns={'valor':'total_uf'})
 tributo_por_uf = df.groupby(['sigla_uf','descricao'])['valor'].sum().reset_index()
@@ -433,9 +442,10 @@ st.plotly_chart(fig_dom, width="stretch")
 # ─────────────────────────────────────────────
 # GRÁFICO 8 — Evolução mensal empilhada (Cell [51])
 # ─────────────────────────────────────────────
-st.markdown('<div class="section-label">Composição Mensal</div>', unsafe_allow_html=True)
-st.markdown('<div class="chart-title">Evolução Mensal da Arrecadação Federal por Ano</div>', unsafe_allow_html=True)
-st.markdown('<div class="chart-desc">Barras empilhadas em R$ bilhões — 2016 a 2024</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-label">Composição Mensal Histórica</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-badge">Questão 9</div>', unsafe_allow_html=True)
+st.markdown('<div class="chart-title">Evolução Mensal da Arrecadação Federal por Ano (2016–2024)</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-text">Qual mês do ano historicamente concentra mais arrecadação? Comparação empilhada por ano em R$ bilhões.</div>', unsafe_allow_html=True)
 
 df_mes_ano = df[df['ano'].between(2016, 2024)].groupby(['ano','mes'])['valor_B'].sum().reset_index()
 df_mes_ano['nome_mes'] = df_mes_ano['mes'].map(NOMES_MES)
@@ -461,31 +471,49 @@ st.plotly_chart(fig_empilhado, width="stretch")
 # ─────────────────────────────────────────────
 # SÍNTESE
 # ─────────────────────────────────────────────
-st.markdown('<div class="section-label">Síntese analítica</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-label">Data Storytelling · Síntese Analítica</div>', unsafe_allow_html=True)
 s1, s2, s3 = st.columns(3)
 with s1:
     st.markdown("""<div class="finding">
-        <div class="finding-num">01 · Achados</div>
-        <div class="finding-title">Sudeste concentra mais da metade da receita</div>
-        <div class="finding-body">SP e RJ respondem por mais de 50% da arrecadação federal.
-        O IRPJ e o COFINS lideram em volume absoluto. O IPI-Combustíveis apresenta
-        a maior volatilidade histórica, com quedas em 2020 e 2022.</div>
+        <div class="finding-num">01 · Principais Achados</div>
+        <div class="finding-title">Concentração geográfica e tributária</div>
+        <div class="finding-body">
+        SP e RJ respondem por mais de 50% da arrecadação federal nacional (Q6).
+        O IRPJ e o COFINS lideram em volume absoluto — juntos representam a maior
+        parcela da receita em quase todos os estados. O CIDE-Combustíveis apresenta
+        a maior volatilidade histórica, com quedas abruptas em 2020 (pandemia) e 2022
+        (desonerações). Janeiro e março concentram os maiores volumes todos os anos,
+        reflexo do ajuste anual do IRPJ (Q9). O IPI-Bebidas tem peso levemente maior
+        no verão do que no inverno, padrão consistente em toda a série 2016–2024 (Q7).
+        </div>
     </div>""", unsafe_allow_html=True)
 with s2:
     st.markdown("""<div class="finding">
         <div class="finding-num">02 · Interpretações</div>
-        <div class="finding-title">Sazonalidade consistente entre os anos</div>
-        <div class="finding-body">Janeiro e março concentram os maiores volumes todos os anos,
-        reflexo do ajuste anual do IRPJ. O IPI-Bebidas tem peso levemente maior no verão,
-        padrão consistente ao longo de toda a série histórica.</div>
+        <div class="finding-title">Dependência estrutural e sazonalidade previsível</div>
+        <div class="finding-body">
+        A alta concentração em SP e RJ reflete a estrutura produtiva do país: sede das
+        maiores instituições financeiras e empresas industriais. A sazonalidade do IPI
+        automotivo é inversamente proporcional à crise econômica — quedas em 2020 e
+        recuperação em 2021–2022 espelham o ciclo de crédito ao consumidor. Estados
+        do Norte e Centro-Oeste dependem fortemente de um único tributo (Q8), o que
+        os torna mais vulneráveis a mudanças de política fiscal. O crescimento de 2022
+        para 2023 foi positivo na maioria dos estados, com Norte e Nordeste registrando
+        os maiores percentuais relativos (Q2).
+        </div>
     </div>""", unsafe_allow_html=True)
 with s3:
     st.markdown("""<div class="finding">
         <div class="finding-num">03 · Recomendações</div>
-        <div class="finding-title">Monitorar dependência tributária por estado</div>
-        <div class="finding-body">Estados com mais de 50% de arrecadação concentrada em um único
-        tributo apresentam risco fiscal elevado. CIDE-Combustíveis deve ser acompanhado
-        como proxy de choques econômicos regionais.</div>
+        <div class="finding-title">Ações orientadas à decisão</div>
+        <div class="finding-body">
+        <b>Diversificação:</b> estados com mais de 50% de receita em um único tributo
+        devem ser alvo de políticas de diversificação da base tributária (Q8).<br><br>
+        <b>Monitoramento:</b> acompanhar CIDE-Combustíveis trimestralmente como proxy
+        de choques econômicos regionais — seu comportamento antecipa variações no PIB.<br><br>
+        <b>Planejamento:</b> usar a sazonalidade histórica de janeiro e março para
+        calibrar projeções de receita e evitar subestimação do caixa federal no 1º trimestre (Q9).
+        </div>
     </div>""", unsafe_allow_html=True)
 
 st.markdown(f"""<div class="footer">
