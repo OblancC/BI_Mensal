@@ -82,12 +82,12 @@ NJ_NOMES = {
 # ─────────────────────────────────────────────
 # CARREGAMENTO E ETL
 # ─────────────────────────────────────────────
-DATA = "data"
+DATA = "Data"
 
 @st.cache_data(show_spinner="Processando dados...")
 def load_data():
     # ── 1. UF — fonte principal (replica ETL do notebook) ──
-    df_raw = pd.read_csv(os.path.join(DATA, "br_rf_arrecadacao_uf_csv.csv"))
+    df_raw = pd.read_csv(os.path.join(DATA, "br_rf_arrecadacao_uf.csv.gz"), compression="gzip")
     df_raw['regiao']   = df_raw['sigla_uf'].map(REGIOES)
     df_raw['nome_mes'] = df_raw['mes'].map(NOMES_MES)
     df_raw['estacao']  = df_raw['mes'].map(ESTACOES)
@@ -107,7 +107,7 @@ def load_data():
     df_completo = df_completo[df_completo['valor'] > 0]
 
     # ── 2. CNAE ──
-    df_cnae = pd.read_csv(os.path.join(DATA, "br_rf_arrecadacao_cnae_csv.csv"))
+    df_cnae = pd.read_csv(os.path.join(DATA, "br_rf_arrecadacao_cnae.csv.gz"), compression="gzip")
     cols_val = [c for c in df_cnae.columns if c not in ['ano','mes','secao_sigla']]
     for col in cols_val:
         df_cnae[col] = pd.to_numeric(df_cnae[col], errors='coerce').fillna(0)
@@ -116,7 +116,7 @@ def load_data():
     df_cnae['valor_B'] = df_cnae['total'] / 1e9
 
     # ── 3. IR/IPI (bruto vs líquido) ──
-    df_ir = pd.read_csv(os.path.join(DATA, "br_rf_arrecadacao_ir_ipi_csv.csv"))
+    df_ir = pd.read_csv(os.path.join(DATA, "br_rf_arrecadacao_ir_ipi.csv.gz"), compression="gzip")
     for col in ['arrecadacao_bruta','arrecadacao_liquida','restituicao','compensacao']:
         df_ir[col] = pd.to_numeric(df_ir[col], errors='coerce').fillna(0)
     df_ir['bruto_B']   = df_ir['arrecadacao_bruta']   / 1e9
@@ -124,13 +124,13 @@ def load_data():
     df_ir['restituicao_B'] = df_ir['restituicao'].abs() / 1e9
 
     # ── 4. ITR por UF ──
-    df_itr = pd.read_csv(os.path.join(DATA, "br_rf_arrecadacao_itr_csv.csv"))
+    df_itr = pd.read_csv(os.path.join(DATA, "br_rf_arrecadacao_itr.csv.gz"), compression="gzip")
     df_itr['valor_arrecadado'] = pd.to_numeric(df_itr['valor_arrecadado'], errors='coerce').fillna(0)
     df_itr['regiao']  = df_itr['sigla_uf'].map(REGIOES)
     df_itr['valor_B'] = df_itr['valor_arrecadado'] / 1e6  # em milhões para ITR
 
     # ── 5. Natureza Jurídica ──
-    df_nj = pd.read_csv(os.path.join(DATA, "br_rf_arrecadacao_natureza_juridica_csv.csv"))
+    df_nj = pd.read_csv(os.path.join(DATA, "br_rf_arrecadacao_natureza_juridica.csv.gz"), compression="gzip")
     cols_nj = [c for c in df_nj.columns if c not in ['ano','mes','natureza_juridica_codigo']]
     for col in cols_nj:
         df_nj[col] = pd.to_numeric(df_nj[col], errors='coerce').fillna(0)
