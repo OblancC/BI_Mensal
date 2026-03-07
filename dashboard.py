@@ -178,8 +178,7 @@ def load_data():
     df = pandas_gbq.read_gbq(
     query,
     credentials=credentials,
-    project_id="mensal-arrecadacao-receita",
-    location="southamerica-east1"  # região São Paulo
+    project_id="mensal-arrecadacao-receita"
 )
     df['valor_B'] = df['valor'] / 1e9
     return df
