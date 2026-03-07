@@ -253,7 +253,6 @@ with c1:
         color='valor_B', text_auto='.2f',
         color_continuous_scale='Blues'
     )
-    fig_ranking.update_traces(textfont_color='#555555', textfont_size=11)
     fig_ranking.update_layout(
         yaxis_ticksuffix=' B', coloraxis_showscale=False,
         paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
@@ -275,7 +274,6 @@ with c2:
         text_auto='.2f', color='valor_B',
         color_continuous_scale='Blues'
     )
-    fig_tributos.update_traces(textfont_color='#555555', textfont_size=11)
     fig_tributos.update_layout(
         yaxis={'categoryorder':'total ascending', 'gridcolor':'#e0e0e0', 'tickfont':{'color':'#111111'}, 'title_font':{'color':'#111111'}}, height=400,
         coloraxis_showscale=False,
