@@ -227,7 +227,7 @@ with k2:
     ref = f"{anos_kpi[-2]}→{anos_kpi[-1]}" if len(anos_kpi) >= 2 else "—"
     st.markdown(f"""<div class="kpi-wrap">
         <div class="kpi-eyebrow">Crescimento anual</div>
-        <div class="kpi-number {cls">{'↑' if yoy>=0 else '↓'} {abs(yoy):.1f}%</div>
+        <div class="kpi-number {cls}">{'↑' if yoy>=0 else '↓'} {abs(yoy):.1f}%</div>
         <div class="kpi-note">{ref}</div>
     </div>""", unsafe_allow_html=True)
 with k3:
