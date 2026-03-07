@@ -115,10 +115,10 @@ with st.sidebar:
     st.caption("Receita Federal do Brasil")
     st.divider()
 
-    anos_disp = sorted(df_completo['ano'].unique())
+    anos_disp = [a for a in sorted(df_completo['ano'].unique()) if 2016 <= a <= 2024]
     st.markdown("**Período**")
     ano_min, ano_max = st.select_slider(
-        " ", options=anos_disp, value=(2016, max(anos_disp))
+        " ", options=anos_disp, value=(2016, 2024)
     )
 
     st.markdown("**Região**")
@@ -130,7 +130,7 @@ with st.sidebar:
     tributo_sel = st.selectbox(" ", trib_disp, key="trib")
 
     st.divider()
-    st.caption(f"Dados de {min(anos_disp)} a {max(anos_disp)}")
+    st.caption("Dados de 2016 a 2024")
 
 # ─────────────────────────────────────────────
 # FILTRO
@@ -226,11 +226,11 @@ fig_saz.update_layout(
     yaxis_title='Bilhões de Reais (R$)',
     paper_bgcolor='rgba(0,0,0,0)',
     plot_bgcolor='rgba(0,0,0,0)',
-    font=dict(color='#333333', family='Source Sans 3, sans-serif'),
+    font=dict(color='#111111', family='Source Sans 3, sans-serif'),
     xaxis=dict(gridcolor='#e0e0e0', tickmode='linear', tick0=1, dtick=1,
                tickvals=list(range(1,13)), ticktext=list(NOMES_MES.values())),
     yaxis=dict(gridcolor='#e0e0e0'),
-    legend=dict(orientation='h', y=-0.2, title=None, font=dict(size=10)),
+    legend=dict(orientation='h', y=-0.2, title=None, font=dict(size=11, color='#111111')),
     margin=dict(t=20, b=60, l=60, r=20)
 )
 st.plotly_chart(fig_saz, width="stretch")
@@ -253,10 +253,11 @@ with c1:
         color='valor_B', text_auto='.2f',
         color_continuous_scale='Blues'
     )
+    fig_ranking.update_traces(textfont_color='#111111', textfont_size=11)
     fig_ranking.update_layout(
         yaxis_ticksuffix=' B', coloraxis_showscale=False,
         paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-        font=dict(color='#333333', family='Source Sans 3, sans-serif'),
+        font=dict(color='#111111', family='Source Sans 3, sans-serif'),
         xaxis=dict(gridcolor='#e0e0e0'), yaxis=dict(gridcolor='#e0e0e0'),
         margin=dict(t=20, b=40, l=60, r=20)
     )
@@ -274,11 +275,12 @@ with c2:
         text_auto='.2f', color='valor_B',
         color_continuous_scale='Blues'
     )
+    fig_tributos.update_traces(textfont_color='#111111', textfont_size=11)
     fig_tributos.update_layout(
-        yaxis={'categoryorder':'total ascending', 'gridcolor':'#ece9e4'}, height=400,
+        yaxis={'categoryorder':'total ascending', 'gridcolor':'#e0e0e0'}, height=400,
         coloraxis_showscale=False,
         paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-        font=dict(color='#333333', family='Source Sans 3, sans-serif'),
+        font=dict(color='#111111', family='Source Sans 3, sans-serif'),
         xaxis=dict(gridcolor='#e0e0e0'),
         margin=dict(t=20, b=40, l=160, r=20)
     )
@@ -304,7 +306,7 @@ fig_evol = px.line(
 fig_evol.update_layout(
     yaxis_ticksuffix=' B',
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-    font=dict(color='#333333', family='Source Sans 3, sans-serif'),
+    font=dict(color='#111111', family='Source Sans 3, sans-serif'),
     margin=dict(t=40, b=40, l=60, r=20)
 )
 fig_evol.update_xaxes(tickmode='linear', tick0=1, dtick=3)
@@ -330,8 +332,8 @@ fig_ipi = px.line(
 fig_ipi.update_yaxes(matches=None)
 fig_ipi.update_layout(
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-    font=dict(color='#333333', family='Source Sans 3, sans-serif'),
-    legend=dict(orientation='h', y=-0.2, title=None, font=dict(size=10)),
+    font=dict(color='#111111', family='Source Sans 3, sans-serif'),
+    legend=dict(orientation='h', y=-0.2, title=None, font=dict(size=11, color='#111111')),
     margin=dict(t=40, b=60, l=60, r=20)
 )
 fig_ipi.update_xaxes(tickmode='linear', tick0=1, dtick=1,
@@ -394,7 +396,7 @@ fig_beb.update_layout(
     xaxis=dict(tickformat='%b/%Y', tickangle=-45),
     height=500, hovermode='x unified', legend_title='Estação',
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-    font=dict(color='#333333', family='Source Sans 3, sans-serif'),
+    font=dict(color='#111111', family='Source Sans 3, sans-serif'),
     yaxis=dict(gridcolor='#e0e0e0'),
     margin=dict(t=20, b=80, l=60, r=20)
 )
@@ -438,7 +440,7 @@ fig_dom.update_layout(
     yaxis_title='', height=650,
     margin=dict(t=40, b=40, l=50, r=250),
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='white',
-    font=dict(color='#333333', family='Source Sans 3, sans-serif'),
+    font=dict(color='#111111', family='Source Sans 3, sans-serif'),
     xaxis=dict(gridcolor='#e5e7eb', range=[0, 105])
 )
 st.plotly_chart(fig_dom, width="stretch")
@@ -466,7 +468,7 @@ fig_empilhado.update_layout(
     xaxis_title='Mês', yaxis_title='R$ Bilhões',
     legend=dict(orientation='h', yanchor='bottom', y=1.02),
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-    font=dict(color='#333333', family='Source Sans 3, sans-serif'),
+    font=dict(color='#111111', family='Source Sans 3, sans-serif'),
     xaxis=dict(gridcolor='#e0e0e0'), yaxis=dict(gridcolor='#e0e0e0'),
     margin=dict(t=60, b=40, l=60, r=20)
 )
