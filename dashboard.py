@@ -175,8 +175,12 @@ def load_data():
         JOIN `mensal-arrecadacao-receita.dw_arrecadacao.dim_tributo`    tr ON f.SK_Tributo    = tr.SK_Tributo
         WHERE f.valor IS NOT NULL AND f.valor > 0
     """
-    df = pandas_gbq.read_gbq(query, credentials=credentials,
-                              project_id="mensal-arrecadacao-receita")
+    df = pandas_gbq.read_gbq(
+    query,
+    credentials=credentials,
+    project_id="mensal-arrecadacao-receita",
+    location="southamerica-east1"  # região São Paulo
+)
     df['valor_B'] = df['valor'] / 1e9
     return df
 
