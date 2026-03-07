@@ -18,29 +18,29 @@ st.set_page_config(
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@300;400;600&display=swap');
-html, body, [class*="css"] { font-family: 'Source Sans 3', sans-serif; background: #faf9f7; color: #1a1a1a; }
-.block-container { padding: 2.5rem 3rem 3rem 3rem; max-width: 1400px; }
-.page-header { border-top: 3px solid #1a1a1a; border-bottom: 1px solid #d0cdc8; padding: 18px 0 14px 0; margin-bottom: 32px; }
-.page-header .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: #888; margin-bottom: 4px; }
-.page-header h1 { font-family: 'Bitter', serif; font-size: 2rem; font-weight: 600; color: #1a1a1a; line-height: 1.15; margin: 0; }
-.page-header .subtitle { font-size: 0.9rem; color: #666; margin-top: 6px; font-weight: 300; }
-.kpi-wrap { border-top: 2px solid #1a1a1a; padding: 14px 0 10px 0; }
-.kpi-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: #999; margin-bottom: 2px; }
-.kpi-number { font-family: 'Bitter', serif; font-size: 2.1rem; font-weight: 600; color: #1a1a1a; line-height: 1; }
-.kpi-note { font-size: 0.75rem; color: #888; margin-top: 3px; }
-.kpi-up { color: #2d6a4f; } .kpi-down { color: #9b2226; }
-.section-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: #aaa; border-bottom: 1px solid #e5e2dd; padding-bottom: 5px; margin-bottom: 4px; margin-top: 28px; }
-.chart-title { font-family: 'Bitter', serif; font-size: 1.05rem; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
-.chart-desc { font-size: 0.78rem; color: #888; margin-bottom: 10px; font-weight: 300; }
-.question-badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: #1a1a1a; color: #faf9f7; padding: 2px 8px; border-radius: 2px; margin-bottom: 6px; }
-.question-text { font-size: 0.82rem; color: #444; font-style: italic; margin-bottom: 8px; line-height: 1.5; border-left: 2px solid #d0cdc8; padding-left: 10px; }
-.finding { border-top: 1px solid #d0cdc8; padding: 16px 0; }
-.finding-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: #bbb; margin-bottom: 4px; }
-.finding-title { font-family: 'Bitter', serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: #1a1a1a; }
-.finding-body { font-size: 0.82rem; color: #555; line-height: 1.75; font-weight: 300; }
-section[data-testid="stSidebar"] { background: #f2f0ed; border-right: 1px solid #d0cdc8; }
-section[data-testid="stSidebar"] * { color: #1a1a1a !important; }
-.footer { border-top: 1px solid #d0cdc8; margin-top: 48px; padding-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: #bbb; }
+html, body, [class*="css"] { font-family: 'Source Sans 3', sans-serif; background: #ffffff; color: #111111; }
+.block-container { padding: 2.5rem 3rem 3rem 3rem; max-width: 1400px; background: #ffffff; }
+.page-header { border-top: 3px solid #111111; border-bottom: 1px solid #cccccc; padding: 18px 0 14px 0; margin-bottom: 32px; }
+.page-header .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: #555555; margin-bottom: 4px; }
+.page-header h1 { font-family: 'Bitter', serif; font-size: 2rem; font-weight: 600; color: #111111; line-height: 1.15; margin: 0; }
+.page-header .subtitle { font-size: 0.9rem; color: #444444; margin-top: 6px; font-weight: 400; }
+.kpi-wrap { border-top: 2px solid #111111; padding: 14px 0 10px 0; }
+.kpi-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: #555555; margin-bottom: 2px; }
+.kpi-number { font-family: 'Bitter', serif; font-size: 2.1rem; font-weight: 600; color: #111111; line-height: 1; }
+.kpi-note { font-size: 0.75rem; color: #555555; margin-top: 3px; }
+.kpi-up { color: #1a5c38; } .kpi-down { color: #8b1a1a; }
+.section-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: #777777; border-bottom: 1px solid #cccccc; padding-bottom: 5px; margin-bottom: 8px; margin-top: 32px; }
+.chart-title { font-family: 'Bitter', serif; font-size: 1.1rem; font-weight: 600; color: #111111; margin-bottom: 4px; }
+.chart-desc { font-size: 0.82rem; color: #555555; margin-bottom: 10px; font-weight: 400; }
+.question-badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: #111111; color: #ffffff; padding: 2px 8px; border-radius: 2px; margin-bottom: 6px; }
+.question-text { font-size: 0.84rem; color: #333333; font-style: italic; margin-bottom: 10px; line-height: 1.6; border-left: 3px solid #cccccc; padding-left: 10px; }
+.finding { border-top: 1px solid #cccccc; padding: 16px 0; }
+.finding-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: #888888; margin-bottom: 4px; }
+.finding-title { font-family: 'Bitter', serif; font-size: 1rem; font-weight: 600; margin-bottom: 6px; color: #111111; }
+.finding-body { font-size: 0.85rem; color: #333333; line-height: 1.8; font-weight: 400; }
+section[data-testid="stSidebar"] { background: #f5f5f5; border-right: 1px solid #cccccc; }
+section[data-testid="stSidebar"] * { color: #111111 !important; }
+.footer { border-top: 1px solid #cccccc; margin-top: 48px; padding-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: #888888; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -144,11 +144,16 @@ if tributo_sel != "Todos": df = df[df['descricao'] == tributo_sel]
 # ─────────────────────────────────────────────
 total = df['valor'].sum()
 anos_kpi = sorted(df['ano'].unique())
+
+# YoY fixo 2022 -> 2023 (2024 incompleto, conforme notebook)
 yoy = 0
-if len(anos_kpi) >= 2:
-    v_atual = df[df['ano'] == anos_kpi[-1]]['valor'].sum()
-    v_ant   = df[df['ano'] == anos_kpi[-2]]['valor'].sum()
-    yoy = ((v_atual / v_ant) - 1) * 100 if v_ant > 0 else 0
+df_yoy_base = df_completo[df_completo['ano'].isin([2022, 2023])]
+if regiao_sel  != 'Todas': df_yoy_base = df_yoy_base[df_yoy_base['regiao']    == regiao_sel]
+if tributo_sel != 'Todos': df_yoy_base = df_yoy_base[df_yoy_base['descricao'] == tributo_sel]
+v_2022 = df_yoy_base[df_yoy_base['ano'] == 2022]['valor'].sum()
+v_2023 = df_yoy_base[df_yoy_base['ano'] == 2023]['valor'].sum()
+if v_2022 > 0:
+    yoy = ((v_2023 / v_2022) - 1) * 100
 
 uf_shares    = df.groupby('sigla_uf')['valor'].sum()
 uf_lider     = uf_shares.idxmax() if not uf_shares.empty else "—"
@@ -182,11 +187,10 @@ with k1:
 with k2:
     cls = "kpi-up" if yoy >= 0 else "kpi-down"
     seta = "↑" if yoy >= 0 else "↓"
-    ref = f"{anos_kpi[-2]}→{anos_kpi[-1]}" if len(anos_kpi) >= 2 else "—"
     st.markdown(f"""<div class="kpi-wrap">
         <div class="kpi-eyebrow">Crescimento anual</div>
         <div class="kpi-number {cls}">{seta} {abs(yoy):.1f}%</div>
-        <div class="kpi-note">{ref}</div>
+        <div class="kpi-note">2022 → 2023</div>
     </div>""", unsafe_allow_html=True)
 with k3:
     st.markdown(f"""<div class="kpi-wrap">
@@ -222,10 +226,10 @@ fig_saz.update_layout(
     yaxis_title='Bilhões de Reais (R$)',
     paper_bgcolor='rgba(0,0,0,0)',
     plot_bgcolor='rgba(0,0,0,0)',
-    font=dict(color='#666', family='Source Sans 3, sans-serif'),
-    xaxis=dict(gridcolor='#ece9e4', tickmode='linear', tick0=1, dtick=1,
+    font=dict(color='#333333', family='Source Sans 3, sans-serif'),
+    xaxis=dict(gridcolor='#e0e0e0', tickmode='linear', tick0=1, dtick=1,
                tickvals=list(range(1,13)), ticktext=list(NOMES_MES.values())),
-    yaxis=dict(gridcolor='#ece9e4'),
+    yaxis=dict(gridcolor='#e0e0e0'),
     legend=dict(orientation='h', y=-0.2, title=None, font=dict(size=10)),
     margin=dict(t=20, b=60, l=60, r=20)
 )
@@ -252,8 +256,8 @@ with c1:
     fig_ranking.update_layout(
         yaxis_ticksuffix=' B', coloraxis_showscale=False,
         paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-        font=dict(color='#666', family='Source Sans 3, sans-serif'),
-        xaxis=dict(gridcolor='#ece9e4'), yaxis=dict(gridcolor='#ece9e4'),
+        font=dict(color='#333333', family='Source Sans 3, sans-serif'),
+        xaxis=dict(gridcolor='#e0e0e0'), yaxis=dict(gridcolor='#e0e0e0'),
         margin=dict(t=20, b=40, l=60, r=20)
     )
     st.plotly_chart(fig_ranking, width="stretch")
@@ -274,8 +278,8 @@ with c2:
         yaxis={'categoryorder':'total ascending', 'gridcolor':'#ece9e4'}, height=400,
         coloraxis_showscale=False,
         paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-        font=dict(color='#666', family='Source Sans 3, sans-serif'),
-        xaxis=dict(gridcolor='#ece9e4'),
+        font=dict(color='#333333', family='Source Sans 3, sans-serif'),
+        xaxis=dict(gridcolor='#e0e0e0'),
         margin=dict(t=20, b=40, l=160, r=20)
     )
     st.plotly_chart(fig_tributos, width="stretch")
@@ -300,7 +304,7 @@ fig_evol = px.line(
 fig_evol.update_layout(
     yaxis_ticksuffix=' B',
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-    font=dict(color='#666', family='Source Sans 3, sans-serif'),
+    font=dict(color='#333333', family='Source Sans 3, sans-serif'),
     margin=dict(t=40, b=40, l=60, r=20)
 )
 fig_evol.update_xaxes(tickmode='linear', tick0=1, dtick=3)
@@ -326,7 +330,7 @@ fig_ipi = px.line(
 fig_ipi.update_yaxes(matches=None)
 fig_ipi.update_layout(
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-    font=dict(color='#666', family='Source Sans 3, sans-serif'),
+    font=dict(color='#333333', family='Source Sans 3, sans-serif'),
     legend=dict(orientation='h', y=-0.2, title=None, font=dict(size=10)),
     margin=dict(t=40, b=60, l=60, r=20)
 )
@@ -390,8 +394,8 @@ fig_beb.update_layout(
     xaxis=dict(tickformat='%b/%Y', tickangle=-45),
     height=500, hovermode='x unified', legend_title='Estação',
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-    font=dict(color='#666', family='Source Sans 3, sans-serif'),
-    yaxis=dict(gridcolor='#ece9e4'),
+    font=dict(color='#333333', family='Source Sans 3, sans-serif'),
+    yaxis=dict(gridcolor='#e0e0e0'),
     margin=dict(t=20, b=80, l=60, r=20)
 )
 st.plotly_chart(fig_beb, width="stretch")
@@ -434,7 +438,7 @@ fig_dom.update_layout(
     yaxis_title='', height=650,
     margin=dict(t=40, b=40, l=50, r=250),
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='white',
-    font=dict(color='#666', family='Source Sans 3, sans-serif'),
+    font=dict(color='#333333', family='Source Sans 3, sans-serif'),
     xaxis=dict(gridcolor='#e5e7eb', range=[0, 105])
 )
 st.plotly_chart(fig_dom, width="stretch")
@@ -462,8 +466,8 @@ fig_empilhado.update_layout(
     xaxis_title='Mês', yaxis_title='R$ Bilhões',
     legend=dict(orientation='h', yanchor='bottom', y=1.02),
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-    font=dict(color='#666', family='Source Sans 3, sans-serif'),
-    xaxis=dict(gridcolor='#ece9e4'), yaxis=dict(gridcolor='#ece9e4'),
+    font=dict(color='#333333', family='Source Sans 3, sans-serif'),
+    xaxis=dict(gridcolor='#e0e0e0'), yaxis=dict(gridcolor='#e0e0e0'),
     margin=dict(t=60, b=40, l=60, r=20)
 )
 st.plotly_chart(fig_empilhado, width="stretch")
