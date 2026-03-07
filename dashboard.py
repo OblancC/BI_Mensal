@@ -257,7 +257,6 @@ PT = dict(
     font=dict(color='#666', family='Source Sans 3, sans-serif', size=11),
     xaxis=dict(gridcolor='#ece9e4', linecolor='#d0cdc8', tickcolor='#ccc'),
     yaxis=dict(gridcolor='#ece9e4', linecolor='#d0cdc8', tickcolor='#ccc'),
-    margin=dict(t=20, b=40, l=50, r=20)
 )
 CORES = ['#2d6a4f','#e76f51','#264653','#457b9d','#e9c46a','#f4a261','#a8dadc','#1d3557','#52b788']
 
@@ -276,8 +275,8 @@ with c1:
                    markers=True, color_discrete_sequence=CORES,
                    labels={'valor_B':'R$ Bi','nome_mes':'','ano':'Ano'})
     fig1.update_traces(line_width=1.8, marker_size=4)
-    fig1.update_layout(**PT, legend=dict(orientation='h', y=-0.22, font=dict(size=10), title=None))
-    st.plotly_chart(fig1, use_container_width=True)
+    fig1.update_layout(**PT, margin=dict(t=20,b=40,l=50,r=20), legend=dict(orientation='h', y=-0.22, font=dict(size=10), title=None))
+    st.plotly_chart(fig1, width="stretch")
 
 with c2:
     st.markdown('<div class="chart-title">Heatmap de sazonalidade</div>', unsafe_allow_html=True)
@@ -288,7 +287,7 @@ with c2:
     fig2 = px.imshow(piv, color_continuous_scale='Greens', aspect='auto', labels=dict(color='R$ Bi'))
     fig2.update_layout(**PT, margin=dict(t=20,b=20,l=50,r=20),
                        coloraxis_colorbar=dict(tickfont=dict(color='#888'), thickness=10))
-    st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, width="stretch")
 
 # ─────────────────────────────────────────────
 # SEÇÃO 2 — Distribuição geográfica
@@ -313,8 +312,8 @@ with c3:
                   color_discrete_sequence=['#1b4332','#2d6a4f','#40916c','#52b788','#74c69d','#d8f3dc'])
     fig3.update_traces(textfont_size=11, textfont_color='white',
                        marker=dict(line=dict(color='#faf9f7', width=2)))
-    fig3.update_layout(**PT, legend=dict(orientation='h', y=-0.1, font=dict(size=10)))
-    st.plotly_chart(fig3, use_container_width=True)
+    fig3.update_layout(**PT, margin=dict(t=20,b=40,l=50,r=20), legend=dict(orientation='h', y=-0.1, font=dict(size=10)))
+    st.plotly_chart(fig3, width="stretch")
 
 with c4:
     st.markdown('<div class="chart-title">Crescimento 2022 → 2023 por UF</div>', unsafe_allow_html=True)
@@ -333,7 +332,7 @@ with c4:
         ))
         fig4.add_vline(x=0, line_color='#ccc', line_width=1)
         fig4.update_layout(**PT, margin=dict(t=20,b=20,l=50,r=60), xaxis_title='Variação (%)', yaxis_title='')
-        st.plotly_chart(fig4, use_container_width=True)
+        st.plotly_chart(fig4, width="stretch")
     else:
         st.info("Selecione um período que inclua 2022 e 2023.")
 
@@ -352,8 +351,8 @@ with c5:
                    markers=True, color_discrete_sequence=['#2d6a4f','#e76f51','#264653'],
                    labels={'valor_B':'R$ Bi','ano':'','descricao':''})
     fig5.update_traces(line_width=2, marker_size=5)
-    fig5.update_layout(**PT, legend=dict(orientation='h', y=-0.22, font=dict(size=10), title=None))
-    st.plotly_chart(fig5, use_container_width=True)
+    fig5.update_layout(**PT, margin=dict(t=20,b=40,l=50,r=20), legend=dict(orientation='h', y=-0.22, font=dict(size=10), title=None))
+    st.plotly_chart(fig5, width="stretch")
 
 with c6:
     st.markdown('<div class="chart-title">Imposto de Importação por região</div>', unsafe_allow_html=True)
@@ -370,7 +369,7 @@ with c6:
                   text=pct_ii['pct'].apply(lambda x: f"{x:.1f}%"))
     fig6.update_traces(textposition='outside', textfont=dict(color='#888'))
     fig6.update_layout(**PT, coloraxis_showscale=False, margin=dict(t=20,b=20,l=90,r=60))
-    st.plotly_chart(fig6, use_container_width=True)
+    st.plotly_chart(fig6, width="stretch")
 
 # ─────────────────────────────────────────────
 # SEÇÃO 4 — Sazonalidade e volatilidade
@@ -394,8 +393,8 @@ with c7:
         textposition='outside', textfont=dict(color='#888', size=9)
     ))
     fig7.add_hline(y=0, line_color='#ccc', line_width=1.2)
-    fig7.update_layout(**PT, yaxis_title='Desvio (%)', xaxis_title='')
-    st.plotly_chart(fig7, use_container_width=True)
+    fig7.update_layout(**PT, margin=dict(t=20,b=40,l=50,r=20), yaxis_title='Desvio (%)', xaxis_title='')
+    st.plotly_chart(fig7, width="stretch")
 
 with c8:
     st.markdown('<div class="chart-title">Volatilidade por tributo</div>', unsafe_allow_html=True)
@@ -410,7 +409,7 @@ with c8:
                   text=vol_df['cv'].apply(lambda x: f"{x:.1f}%"))
     fig8.update_traces(textposition='outside', textfont=dict(color='#888'))
     fig8.update_layout(**PT, coloraxis_showscale=False, margin=dict(t=20,b=20,l=160,r=60))
-    st.plotly_chart(fig8, use_container_width=True)
+    st.plotly_chart(fig8, width="stretch")
 
 # ─────────────────────────────────────────────
 # SEÇÃO 5 — Setor econômico (CNAE)
@@ -429,7 +428,7 @@ with c9:
                   text=df_cnae_g['valor_B'].apply(lambda x: f"{x:.0f}"))
     fig9.update_traces(textposition='outside', textfont=dict(color='#888'))
     fig9.update_layout(**PT, coloraxis_showscale=False, margin=dict(t=20,b=20,l=160,r=60))
-    st.plotly_chart(fig9, use_container_width=True)
+    st.plotly_chart(fig9, width="stretch")
 
 with c10:
     st.markdown('<div class="chart-title">Evolução dos top 5 setores por ano</div>', unsafe_allow_html=True)
@@ -441,8 +440,8 @@ with c10:
                     markers=True, color_discrete_sequence=CORES,
                     labels={'valor_B':'R$ Bi','ano':'','setor':''})
     fig10.update_traces(line_width=2, marker_size=4)
-    fig10.update_layout(**PT, legend=dict(orientation='h', y=-0.22, font=dict(size=10), title=None))
-    st.plotly_chart(fig10, use_container_width=True)
+    fig10.update_layout(**PT, margin=dict(t=20,b=40,l=50,r=20), legend=dict(orientation='h', y=-0.22, font=dict(size=10), title=None))
+    st.plotly_chart(fig10, width="stretch")
 
 # ─────────────────────────────────────────────
 # SEÇÃO 6 — IR/IPI Bruto vs Líquido
@@ -460,8 +459,8 @@ with c11:
     fig11 = px.bar(df_ir_melted, x='ano', y='valor_B', color='tipo', barmode='group',
                    facet_col='tributo', color_discrete_sequence=['#264653','#2d6a4f'],
                    labels={'valor_B':'R$ Bi','ano':'','tipo':''})
-    fig11.update_layout(**PT, legend=dict(orientation='h', y=-0.22, font=dict(size=10), title=None))
-    st.plotly_chart(fig11, use_container_width=True)
+    fig11.update_layout(**PT, margin=dict(t=20,b=40,l=50,r=20), legend=dict(orientation='h', y=-0.22, font=dict(size=10), title=None))
+    st.plotly_chart(fig11, width="stretch")
 
 with c12:
     st.markdown('<div class="chart-title">Restituições por ano</div>', unsafe_allow_html=True)
@@ -470,8 +469,8 @@ with c12:
     fig12 = px.bar(df_rest, x='ano', y='restituicao_B', color='tributo', barmode='stack',
                    color_discrete_sequence=['#e76f51','#f4a261'],
                    labels={'restituicao_B':'R$ Bi','ano':'','tributo':''})
-    fig12.update_layout(**PT, legend=dict(orientation='h', y=-0.22, font=dict(size=10), title=None))
-    st.plotly_chart(fig12, use_container_width=True)
+    fig12.update_layout(**PT, margin=dict(t=20,b=40,l=50,r=20), legend=dict(orientation='h', y=-0.22, font=dict(size=10), title=None))
+    st.plotly_chart(fig12, width="stretch")
 
 # ─────────────────────────────────────────────
 # SEÇÃO 7 — ITR por UF
@@ -490,7 +489,7 @@ with c13:
                    text=df_itr_uf['valor_B'].apply(lambda x: f"{x:.0f}"))
     fig13.update_traces(textposition='outside', textfont=dict(color='#888'))
     fig13.update_layout(**PT, coloraxis_showscale=False, margin=dict(t=20,b=20,l=50,r=60))
-    st.plotly_chart(fig13, use_container_width=True)
+    st.plotly_chart(fig13, width="stretch")
 
 with c14:
     st.markdown('<div class="chart-title">Evolução do ITR por ano</div>', unsafe_allow_html=True)
@@ -500,8 +499,8 @@ with c14:
                     color_discrete_sequence=['#52b788'],
                     labels={'valor_B':'R$ Milhões','ano':''})
     fig14.update_traces(line_color='#2d6a4f', fillcolor='#52b78844')
-    fig14.update_layout(**PT)
-    st.plotly_chart(fig14, use_container_width=True)
+    fig14.update_layout(**PT, margin=dict(t=20,b=40,l=50,r=20))
+    st.plotly_chart(fig14, width="stretch")
 
 # ─────────────────────────────────────────────
 # SEÇÃO 8 — Natureza Jurídica
@@ -518,8 +517,8 @@ with c15:
                    color_discrete_sequence=px.colors.sequential.Greens_r)
     fig15.update_traces(textfont_size=10, textfont_color='white',
                         marker=dict(line=dict(color='#faf9f7', width=1)))
-    fig15.update_layout(**PT, legend=dict(orientation='h', y=-0.15, font=dict(size=9)))
-    st.plotly_chart(fig15, use_container_width=True)
+    fig15.update_layout(**PT, margin=dict(t=20,b=40,l=50,r=20), legend=dict(orientation='h', y=-0.15, font=dict(size=9)))
+    st.plotly_chart(fig15, width="stretch")
 
 with c16:
     st.markdown('<div class="chart-title">Evolução dos principais tipos por ano</div>', unsafe_allow_html=True)
@@ -531,8 +530,8 @@ with c16:
                     markers=True, color_discrete_sequence=CORES,
                     labels={'valor_B':'R$ Bi','ano':'','tipo':''})
     fig16.update_traces(line_width=2, marker_size=4)
-    fig16.update_layout(**PT, legend=dict(orientation='h', y=-0.22, font=dict(size=10), title=None))
-    st.plotly_chart(fig16, use_container_width=True)
+    fig16.update_layout(**PT, margin=dict(t=20,b=40,l=50,r=20), legend=dict(orientation='h', y=-0.22, font=dict(size=10), title=None))
+    st.plotly_chart(fig16, width="stretch")
 
 # ─────────────────────────────────────────────
 # SÍNTESE
