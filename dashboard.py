@@ -226,15 +226,12 @@ uf_share_pct = uf_shares.max() / uf_shares.sum() * 100 if not uf_shares.empty el
 vol      = df.groupby('descricao')['valor'].std() / df.groupby('descricao')['valor'].mean()
 trib_vol = vol.idxmax() if not vol.empty else "—"
 
-# KPI 5 — Top 5 per capita acumulado no período filtrado
+# KPI 5 — Top 5 maiores per capita individuais (UF × ano) no período filtrado
 _arrec_pc  = df_completo[df_completo['ano'].between(ano_min, ano_max)].groupby(['ano','sigla_uf'])['valor'].sum().reset_index()
 _pop_pc    = df_populacao[df_populacao['ano'].between(ano_min, ano_max)][['ano','sigla_uf','populacao']]
 _df_pc_kpi = _arrec_pc.merge(_pop_pc, on=['ano','sigla_uf'], how='left')
-_total_arr = _df_pc_kpi.groupby('sigla_uf')['valor'].sum().reset_index().rename(columns={'valor':'total_valor'})
-_total_pop = _df_pc_kpi.groupby('sigla_uf')['populacao'].mean().reset_index().rename(columns={'populacao':'pop_media'})
-_df_pc_kpi = _total_arr.merge(_total_pop, on='sigla_uf')
-_df_pc_kpi['per_capita'] = _df_pc_kpi['total_valor'] / _df_pc_kpi['pop_media']
-_top5_pc   = _df_pc_kpi.nlargest(5, 'per_capita')[['sigla_uf','per_capita']]
+_df_pc_kpi['per_capita'] = _df_pc_kpi['valor'] / _df_pc_kpi['populacao']
+_top5_pc   = _df_pc_kpi.nlargest(5, 'per_capita')[['sigla_uf','ano','per_capita']]
 
 # ─────────────────────────────────────────────
 # HEADER
@@ -323,7 +320,7 @@ with k4:
 with k5:
     top5_rows = "".join([
         f'<div style="display:flex;justify-content:space-between;font-size:0.78rem;padding:2px 0;border-bottom:1px solid #f0f0f0;">'
-        f'<span style="font-weight:600;color:#111;">{row.sigla_uf}</span>'
+        f'<span style="font-weight:600;color:#111;">{row.sigla_uf} <span style="font-weight:400;color:#888;font-size:0.7rem;">{row.ano}</span></span>'
         f'<span style="color:#555;font-family:\'IBM Plex Mono\',monospace;">R$ {row.per_capita:,.0f}</span>'
         f'</div>'
         for row in _top5_pc.itertuples()
