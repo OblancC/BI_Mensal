@@ -228,23 +228,23 @@ top3_uf.columns = ['sigla_uf', 'share_pct']
 vol         = df.groupby('descricao')['valor'].std() / df.groupby('descricao')['valor'].mean()
 trib_vol    = vol.idxmax() if not vol.empty else "—"
 
-# KPI 4 — Composição da carga tributária por categoria
-CAT_MAP = {
-    'IRPF':'Renda (IR)',       'IRPJ DEMAIS EMPRESAS':'Renda (IR)',
-    'COFINS':'Contribuições',  'PIS PASEP':'Contribuições',
-    'IPI FUMO':'IPI',          'IPI BEBIDAS':'IPI',
-    'IPI AUTOMOVEIS':'IPI',    'IMPOSTO IMPORTACAO':'Comércio Ext.',
+# KPI 4 — Mix de impostos: participação % de cada tributo no total
+_mix = df.groupby('descricao')['valor'].sum().sort_values(ascending=False).reset_index()
+_mix_total = _mix['valor'].sum()
+_mix['share_pct'] = _mix['valor'] / _mix_total * 100
+# Label curto para exibição
+_LABEL = {
+    'IRPJ DEMAIS EMPRESAS':'IRPJ',
+    'IMPOSTO IMPORTACAO':'Imp. Import.',
+    'COFINS':'COFINS',
+    'IRPF':'IRPF',
+    'PIS PASEP':'PIS/PASEP',
+    'IPI AUTOMOVEIS':'IPI Autos',
+    'IPI BEBIDAS':'IPI Bebidas',
+    'IPI FUMO':'IPI Fumo',
     'CIDE COMBUSTIVEIS':'CIDE',
 }
-df_cat = df.copy()
-df_cat['categoria'] = df_cat['descricao'].map(CAT_MAP).fillna('Outros')
-top_cat = (
-    df_cat.groupby('categoria')['valor'].sum()
-    .sort_values(ascending=False)
-    .reset_index()
-)
-total_cat = top_cat['valor'].sum()
-top_cat['share_pct'] = top_cat['valor'] / total_cat * 100
+_mix['label'] = _mix['descricao'].map(_LABEL).fillna(_mix['descricao'])
 
 # KPI 5 — Top 5 maiores per capita individuais (UF × ano) no período filtrado
 _arrec_pc  = df_completo[df_completo['ano'].between(ano_min, ano_max)].groupby(['ano','sigla_uf'])['valor'].sum().reset_index()
@@ -346,15 +346,15 @@ with k3:
 with k4:
     rows3_vol = ""
 with k4:
-    rows_cat = ""
-    for i, row in enumerate(top_cat.itertuples()):
-        cor_c = cor3[i] if i < 3 else '#333333'
-        pos_c = pos3[i] if i < 3 else f'{i+1}º'
-        rows_cat += (
+    rows_mix = ""
+    for i, row in enumerate(_mix.itertuples()):
+        cor_m = cor3[i] if i < 3 else '#444444'
+        pos_m = pos3[i] if i < 3 else f'{i+1}º'
+        rows_mix += (
             f'<div style="display:flex;justify-content:space-between;font-size:0.90rem;padding:3px 0;border-bottom:1px solid #f0f0f0;">'
             f'<span style="display:flex;gap:5px;align-items:center;">'
-            f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.82rem;color:{cor_c};font-weight:600;">{pos_c}</span>'
-            f'<span style="font-weight:600;color:{cor_c};font-size:0.88rem;">{row.categoria}</span>'
+            f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.82rem;color:{cor_m};font-weight:600;">{pos_m}</span>'
+            f'<span style="font-weight:600;color:{cor_m};font-size:0.88rem;">{row.label}</span>'
             f'</span>'
             f'<span style="color:#333;font-family:IBM Plex Mono,monospace;font-size:0.88rem;">{row.share_pct:.1f}%</span>'
             f'</div>'
@@ -362,10 +362,10 @@ with k4:
     html_k4 = (
         f'<div class="kpi-wrap">'
         f'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
-        f'<div class="kpi-eyebrow">Composição tributária</div>'
+        f'<div class="kpi-eyebrow">Mix de impostos (principais)</div>'
         f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.68rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;">KPI 4</span>'
         f'</div>'
-        f'{rows_cat}'
+        f'{rows_mix}'
         f'</div>'
     )
     st.markdown(html_k4, unsafe_allow_html=True)
