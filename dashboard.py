@@ -186,6 +186,32 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+with st.expander("📋 Perguntas Analíticas — clique para navegar", expanded=False):
+    st.markdown("""
+<style>
+.qa-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 4px; }
+.qa-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px;
+           border: 1px solid #e0e0e0; border-radius: 4px; text-decoration: none;
+           background: #fafafa; transition: background 0.15s; }
+.qa-item:hover { background: #f0f0f0; }
+.qa-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; font-weight: 600;
+          color: #ffffff; background: #111111; padding: 2px 7px; border-radius: 2px;
+          white-space: nowrap; margin-top: 2px; }
+.qa-text { font-size: 0.83rem; color: #222222; line-height: 1.45; }
+</style>
+<div class="qa-grid">
+  <a class="qa-item" href="#q1"><span class="qa-num">Q1</span><span class="qa-text">Qual a evolução mensal da arrecadação federal total por UF?</span></a>
+  <a class="qa-item" href="#q2"><span class="qa-num">Q2</span><span class="qa-text">Quais estados apresentaram maior crescimento percentual comparando 2022 vs. 2023?</span></a>
+  <a class="qa-item" href="#q3"><span class="qa-num">Q3</span><span class="qa-text">Qual a participação percentual do Imposto de Importação por região?</span></a>
+  <a class="qa-item" href="#q4"><span class="qa-num">Q4 · Q5</span><span class="qa-text">Existe sazonalidade no IPI (Automóveis e Bebidas)? Como o IPI-Fumo se comporta em relação aos outros setores?</span></a>
+  <a class="qa-item" href="#q6"><span class="qa-num">Q6</span><span class="qa-text">Quais UFs são responsáveis por mais de 50% da arrecadação total do país?</span></a>
+  <a class="qa-item" href="#q7"><span class="qa-num">Q7</span><span class="qa-text">Qual o peso do IPI-Bebidas na arrecadação total nos meses de verão vs. inverno?</span></a>
+  <a class="qa-item" href="#q8"><span class="qa-num">Q8</span><span class="qa-text">Quais UFs são mais dependentes de um único tributo?</span></a>
+  <a class="qa-item" href="#q9"><span class="qa-num">Q9</span><span class="qa-text">Qual mês do ano historicamente concentra mais arrecadação?</span></a>
+  <a class="qa-item" href="#q10"><span class="qa-num">Q10</span><span class="qa-text">Qual tributo possui a maior volatilidade mensal?</span></a>
+</div>
+""", unsafe_allow_html=True)
+
 k1, k2, k3, k4 = st.columns(4)
 with k1:
     st.markdown(f"""<div class="kpi-wrap">
@@ -218,6 +244,7 @@ with k4:
 # GRÁFICO 1 — Sazonalidade (Cell [27])
 # Sazonalidade da Arrecadação por mês/ano
 # ─────────────────────────────────────────────
+st.markdown('<div id="q9"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Análise de Sazonalidade</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 9</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Sazonalidade da Arrecadação Federal</div>', unsafe_allow_html=True)
@@ -247,6 +274,7 @@ st.plotly_chart(fig_saz, width="stretch")
 # ─────────────────────────────────────────────
 # GRÁFICO 2 + 3 — Top 5 UFs e Tributos (Cells [29] e [31])
 # ─────────────────────────────────────────────
+st.markdown('<div id="q6"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Ranking de Arrecadação</div>', unsafe_allow_html=True)
 c1, c2 = st.columns(2)
 
@@ -296,6 +324,7 @@ with c2:
 # ─────────────────────────────────────────────
 # GRÁFICO 4 — Evolução mensal por UF (Cell [36])
 # ─────────────────────────────────────────────
+st.markdown('<div id="q1"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Evolução Geográfica</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 1</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Evolução Mensal da Arrecadação por UF</div>', unsafe_allow_html=True)
@@ -335,6 +364,7 @@ st.plotly_chart(fig_evol, width="stretch")
 # ─────────────────────────────────────────────
 # GRÁFICO 5 — Sazonalidade IPI (Cell [43])
 # ─────────────────────────────────────────────
+st.markdown('<div id="q4"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">IPI Setorial</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questões 4 · 5</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Sazonalidade IPI: Fumo vs Automóveis vs Bebidas</div>', unsafe_allow_html=True)
@@ -363,6 +393,7 @@ st.plotly_chart(fig_ipi, width="stretch")
 # ─────────────────────────────────────────────
 # GRÁFICO 6 — IPI Bebidas por estação (Cell [47])
 # ─────────────────────────────────────────────
+st.markdown('<div id="q7"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Sazonalidade Estacional</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 7</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Peso % do IPI-Bebidas na Arrecadação Total</div>', unsafe_allow_html=True)
@@ -425,6 +456,7 @@ st.plotly_chart(fig_beb, width="stretch")
 # ─────────────────────────────────────────────
 # GRÁFICO 7 — Tributo dominante por UF (Cell [49])
 # ─────────────────────────────────────────────
+st.markdown('<div id="q8"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Dependência Tributária por UF</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 8</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Concentração de Receita por UF — Qual tributo domina cada estado?</div>', unsafe_allow_html=True)
@@ -468,6 +500,7 @@ st.plotly_chart(fig_dom, width="stretch")
 # ─────────────────────────────────────────────
 # GRÁFICO 8 — Evolução mensal empilhada (Cell [51])
 # ─────────────────────────────────────────────
+st.markdown('<div id="q9b"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Composição Mensal Histórica</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 9</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Evolução Mensal da Arrecadação Federal por Ano (2016–2024)</div>', unsafe_allow_html=True)
@@ -499,6 +532,7 @@ st.plotly_chart(fig_empilhado, width="stretch")
 # ─────────────────────────────────────────────
 # GRÁFICO 9 — Crescimento 2022 vs 2023 (Q2)
 # ─────────────────────────────────────────────
+st.markdown('<div id="q2"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Crescimento Estadual 2022 → 2023</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 2</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Crescimento Percentual da Arrecadação por Estado</div>', unsafe_allow_html=True)
@@ -536,6 +570,7 @@ st.plotly_chart(fig_cresc, width="stretch")
 # ─────────────────────────────────────────────
 # GRÁFICO 10 — Participação II por região (Q3)
 # ─────────────────────────────────────────────
+st.markdown('<div id="q3"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Imposto de Importação por Região</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 3</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Participação Percentual do II na Arrecadação Total por Região</div>', unsafe_allow_html=True)
@@ -568,6 +603,7 @@ st.plotly_chart(fig_ii, width="stretch")
 # ─────────────────────────────────────────────
 # GRÁFICO 11 — Volatilidade por tributo (Q10)
 # ─────────────────────────────────────────────
+st.markdown('<div id="q10"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Volatilidade Tributária</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 10</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Volatilidade Mensal por Tributo</div>', unsafe_allow_html=True)
