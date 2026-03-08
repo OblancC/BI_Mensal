@@ -56,6 +56,10 @@ section[data-testid="stSidebar"] .stSlider label { color: #111111 !important; }
 [data-testid="stExpander"][open] summary { background: #111111 !important; color: #ffffff !important; }
 [data-testid="stExpander"][open] summary p { color: #ffffff !important; }
 [data-testid="stExpander"][open] summary svg { fill: #ffffff !important; }
+/* KPI nav — forçar texto branco mesmo com regra global do sidebar */
+section[data-testid="stSidebar"] .kpi-nav a,
+section[data-testid="stSidebar"] .kpi-nav a span,
+section[data-testid="stSidebar"] .kpi-nav a * { color: #ffffff !important; }
 </style>
 """, unsafe_allow_html=True)
 
