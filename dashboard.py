@@ -25,9 +25,9 @@ html, body, [class*="css"] { font-family: 'Source Sans 3', sans-serif; backgroun
 .page-header h1 { font-family: 'Bitter', serif; font-size: 2rem; font-weight: 600; color: #111111; line-height: 1.15; margin: 0; }
 .page-header .subtitle { font-size: 0.9rem; color: #444444; margin-top: 6px; font-weight: 400; }
 .kpi-wrap { border-top: 2px solid #111111; padding: 18px 16px 16px 16px; background: #fafafa; border-radius: 0 0 4px 4px; height: 100%; }
-.kpi-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: #555555; margin-bottom: 6px; }
-.kpi-number { font-family: 'Bitter', serif; font-size: 2.8rem; font-weight: 600; color: #111111; line-height: 1; }
-.kpi-note { font-size: 0.92rem; color: #555555; margin-top: 6px; }
+.kpi-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: #555555; margin-bottom: 6px; }
+.kpi-number { font-family: 'Bitter', serif; font-size: 2.1rem; font-weight: 600; color: #111111; line-height: 1; }
+.kpi-note { font-size: 0.75rem; color: #555555; margin-top: 6px; }
 .kpi-up { color: #1a5c38; } .kpi-down { color: #8b1a1a; }
 .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: #777777; border-bottom: 1px solid #cccccc; padding-bottom: 5px; margin-bottom: 8px; margin-top: 32px; }
 .chart-title { font-family: 'Bitter', serif; font-size: 1.1rem; font-weight: 600; color: #111111; margin-bottom: 4px; }
@@ -303,7 +303,7 @@ with k1:
     st.markdown(f"""<div class="kpi-wrap">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
             <div class="kpi-eyebrow">Arrecadação total</div>
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.68rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;">KPI 1</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.55rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;">KPI 1</span>
         </div>
         <div class="kpi-number">R$ {total/1e12:.2f}T</div>
         <div class="kpi-note">{ano_min} a {ano_max}</div>
@@ -314,7 +314,7 @@ with k2:
     st.markdown(f"""<div class="kpi-wrap">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
             <div class="kpi-eyebrow">Crescimento anual</div>
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.68rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;">KPI 2</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.55rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;">KPI 2</span>
         </div>
         <div class="kpi-number {cls}">{seta} {abs(yoy):.1f}%</div>
         <div class="kpi-note">2022 → 2023</div>
@@ -325,19 +325,19 @@ with k3:
     rows3_uf = ""
     for i, row in enumerate(top3_uf.itertuples()):
         rows3_uf += (
-            f'<div style="display:flex;justify-content:space-between;font-size:0.92rem;padding:2px 0;border-bottom:1px solid #f0f0f0;">'
+            f'<div style="display:flex;justify-content:space-between;font-size:0.78rem;padding:2px 0;border-bottom:1px solid #f0f0f0;">'
             f'<span style="display:flex;gap:5px;">'
-            f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.82rem;color:{cor3[i]};font-weight:600;">{pos3[i]}</span>'
+            f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.65rem;color:{cor3[i]};font-weight:600;">{pos3[i]}</span>'
             f'<span style="font-weight:600;color:{cor3[i]};">{row.sigla_uf}</span>'
             f'</span>'
-            f'<span style="color:#333;font-family:IBM Plex Mono,monospace;font-size:0.88rem;">{row.share_pct:.1f}%</span>'
+            f'<span style="color:#333;font-family:IBM Plex Mono,monospace;font-size:0.72rem;">{row.share_pct:.1f}%</span>'
             f'</div>'
         )
     html_k3 = (
         f'<div class="kpi-wrap">'
         f'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
         f'<div class="kpi-eyebrow">Top 3 estados · market share</div>'
-        f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.68rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;">KPI 3</span>'
+        f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.55rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;">KPI 3</span>'
         f'</div>'
         f'{rows3_uf}'
         f'</div>'
@@ -351,19 +351,19 @@ with k4:
         cor_m = cor3[i] if i < 3 else '#444444'
         pos_m = pos3[i] if i < 3 else f'{i+1}º'
         rows_mix += (
-            f'<div style="display:flex;justify-content:space-between;font-size:0.90rem;padding:3px 0;border-bottom:1px solid #f0f0f0;">'
+            f'<div style="display:flex;justify-content:space-between;font-size:0.75rem;padding:3px 0;border-bottom:1px solid #f0f0f0;">'
             f'<span style="display:flex;gap:5px;align-items:center;">'
-            f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.82rem;color:{cor_m};font-weight:600;">{pos_m}</span>'
-            f'<span style="font-weight:600;color:{cor_m};font-size:0.88rem;">{row.label}</span>'
+            f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.65rem;color:{cor_m};font-weight:600;">{pos_m}</span>'
+            f'<span style="font-weight:600;color:{cor_m};font-size:0.72rem;">{row.label}</span>'
             f'</span>'
-            f'<span style="color:#333;font-family:IBM Plex Mono,monospace;font-size:0.88rem;">{row.share_pct:.1f}%</span>'
+            f'<span style="color:#333;font-family:IBM Plex Mono,monospace;font-size:0.72rem;">{row.share_pct:.1f}%</span>'
             f'</div>'
         )
     html_k4 = (
         f'<div class="kpi-wrap">'
         f'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
         f'<div class="kpi-eyebrow">Mix de impostos (principais)</div>'
-        f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.68rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;">KPI 4</span>'
+        f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.55rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;">KPI 4</span>'
         f'</div>'
         f'{rows_mix}'
         f'</div>'
@@ -381,13 +381,13 @@ with k5:
         pc    = f"R$ {row.per_capita:,.0f}"
         top5_rows += (
             f'<div style="display:flex;justify-content:space-between;align-items:center;'
-            f'font-size:0.92rem;padding:3px 0;border-bottom:1px solid #f0f0f0;">'
+            f'font-size:0.78rem;padding:3px 0;border-bottom:1px solid #f0f0f0;">'
             f'<span style="display:flex;align-items:center;gap:5px;">'
-            f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.82rem;color:{cor};font-weight:600;">{pos}</span>'
+            f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.65rem;color:{cor};font-weight:600;">{pos}</span>'
             f'<span style="font-weight:600;color:{cor};">{uf}</span>'
             f'<span style="color:#aaa;font-size:0.82rem;">{ano_r}</span>'
             f'</span>'
-            f'<span style="color:#333;font-family:IBM Plex Mono,monospace;font-size:0.88rem;">{pc}</span>'
+            f'<span style="color:#333;font-family:IBM Plex Mono,monospace;font-size:0.72rem;">{pc}</span>'
             f'</div>'
         )
     header_kpi5 = f'<div class="kpi-eyebrow">Top 5 per capita · {ano_min}–{ano_max}</div>'
@@ -395,7 +395,7 @@ with k5:
         f'<div class="kpi-wrap">'
         f'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
         f'{header_kpi5}'
-        f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.68rem;background:#111111;'
+        f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.55rem;background:#111111;'
         f'color:#fff;padding:1px 6px;border-radius:2px;">'
         f'<a href="#kpi5" style="color:#fff;text-decoration:none;">KPI 5</a></span>'
         f'</div>'
