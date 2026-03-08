@@ -50,6 +50,15 @@ section[data-testid="stSidebar"] [data-baseweb="slider"] [role="slider"] { backg
 section[data-testid="stSidebar"] .stSelectbox label { color: #111111 !important; }
 section[data-testid="stSidebar"] .stSlider label { color: #111111 !important; }
 .footer { border-top: 1px solid #cccccc; margin-top: 48px; padding-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: #888888; }
+/* Expander fechado: fundo branco, letra preta */
+[data-testid="stExpander"] { border: 1px solid #cccccc !important; border-radius: 4px !important; }
+[data-testid="stExpander"] summary { background: #ffffff !important; color: #111111 !important; }
+[data-testid="stExpander"] summary p { color: #111111 !important; }
+[data-testid="stExpander"] summary svg { fill: #111111 !important; }
+/* Expander aberto: fundo preto, letra branca */
+[data-testid="stExpander"][open] summary { background: #111111 !important; color: #ffffff !important; }
+[data-testid="stExpander"][open] summary p { color: #ffffff !important; }
+[data-testid="stExpander"][open] summary svg { fill: #ffffff !important; }
 </style>
 """, unsafe_allow_html=True)
 
