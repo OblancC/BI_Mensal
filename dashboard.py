@@ -393,7 +393,7 @@ fig_ipi = px.line(
     facet_col='descricao',
     labels={'valor':'Arrecadação (R$)','mes':'Mês','ano':'Ano','descricao':''}
 )
-fig_ipi.update_yaxes(matches=None)
+fig_ipi.update_yaxes(matches=None, tickfont=dict(color='#111111'), title_font=dict(color='#111111'))
 fig_ipi.update_layout(
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
     font=dict(color='#111111', family='Source Sans 3, sans-serif'),
@@ -401,7 +401,8 @@ fig_ipi.update_layout(
     margin=dict(t=40, b=60, l=60, r=20)
 )
 fig_ipi.update_xaxes(tickmode='linear', tick0=1, dtick=1,
-                     tickvals=list(range(1,13)), ticktext=list(NOMES_MES.values()))
+                     tickvals=list(range(1,13)), ticktext=list(NOMES_MES.values()),
+                     tickfont=dict(color='#111111'), title_font=dict(color='#111111'))
 st.plotly_chart(fig_ipi, width="stretch")
 st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
