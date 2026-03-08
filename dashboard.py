@@ -40,6 +40,15 @@ html, body, [class*="css"] { font-family: 'Source Sans 3', sans-serif; backgroun
 .finding-body { font-size: 0.85rem; color: #333333; line-height: 1.8; font-weight: 400; }
 section[data-testid="stSidebar"] { background: #f5f5f5; border-right: 1px solid #cccccc; }
 section[data-testid="stSidebar"] * { color: #111111 !important; }
+section[data-testid="stSidebar"] input { background: #ffffff !important; color: #111111 !important; }
+section[data-testid="stSidebar"] select { background: #ffffff !important; color: #111111 !important; }
+section[data-testid="stSidebar"] [data-baseweb="select"] > div { background: #ffffff !important; color: #111111 !important; border-color: #cccccc !important; }
+section[data-testid="stSidebar"] [data-baseweb="select"] span { color: #111111 !important; }
+section[data-testid="stSidebar"] [role="listbox"] { background: #ffffff !important; }
+section[data-testid="stSidebar"] [role="option"] { background: #ffffff !important; color: #111111 !important; }
+section[data-testid="stSidebar"] [data-baseweb="slider"] [role="slider"] { background: #111111 !important; }
+section[data-testid="stSidebar"] .stSelectbox label { color: #111111 !important; }
+section[data-testid="stSidebar"] .stSlider label { color: #111111 !important; }
 .footer { border-top: 1px solid #cccccc; margin-top: 48px; padding-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: #888888; }
 </style>
 """, unsafe_allow_html=True)
