@@ -605,43 +605,42 @@ s1, s2, s3 = st.columns(3)
 with s1:
     st.markdown("""<div class="finding">
         <div class="finding-num">01 · Principais Achados</div>
-        <div class="finding-title">Concentração geográfica e tributária</div>
+        <div class="finding-title">O Brasil arrecada de forma muito concentrada</div>
         <div class="finding-body">
-        SP e RJ respondem por mais de 50% da arrecadação federal nacional (Q6).
-        O IRPJ e o COFINS lideram em volume absoluto — juntos representam a maior
-        parcela da receita em quase todos os estados. O CIDE-Combustíveis apresenta
-        a maior volatilidade histórica, com quedas abruptas em 2020 (pandemia) e 2022
-        (desonerações). Janeiro e março concentram os maiores volumes todos os anos,
-        reflexo do ajuste anual do IRPJ (Q9). O IPI-Bebidas tem peso levemente maior
-        no verão do que no inverno, padrão consistente em toda a série 2016–2024 (Q7).
+        São Paulo e Rio de Janeiro sozinhos respondem por mais da metade de toda a arrecadação
+        federal do país. O COFINS e o IRPJ são os tributos que mais pesam no total, presentes
+        em praticamente todos os estados. Janeiro e março são historicamente os meses de pico —
+        não por acaso, é quando as empresas fazem o acerto anual do imposto de renda. O IPI-Bebidas
+        sobe levemente no verão, o que faz sentido dado o maior consumo na estação. E o
+        CIDE-Combustíveis foi o tributo que mais oscilou ao longo dos anos, com quedas
+        expressivas em 2020 e 2022.
         </div>
     </div>""", unsafe_allow_html=True)
 with s2:
     st.markdown("""<div class="finding">
         <div class="finding-num">02 · Interpretações</div>
-        <div class="finding-title">Dependência estrutural e sazonalidade previsível</div>
+        <div class="finding-title">Por que isso acontece?</div>
         <div class="finding-body">
-        A alta concentração em SP e RJ reflete a estrutura produtiva do país: sede das
-        maiores instituições financeiras e empresas industriais. A sazonalidade do IPI
-        automotivo é inversamente proporcional à crise econômica — quedas em 2020 e
-        recuperação em 2021–2022 espelham o ciclo de crédito ao consumidor. Estados
-        do Norte e Centro-Oeste dependem fortemente de um único tributo (Q8), o que
-        os torna mais vulneráveis a mudanças de política fiscal. O crescimento de 2022
-        para 2023 foi positivo na maioria dos estados, com Norte e Nordeste registrando
-        os maiores percentuais relativos (Q2).
+        A concentração no Sudeste acompanha a distribuição da atividade econômica — SP e RJ
+        sediam as maiores empresas e instituições financeiras do país. A queda no IPI automotivo
+        em 2020 reflete o impacto da pandemia sobre o crédito ao consumidor, com recuperação
+        gradual nos anos seguintes. Estados menores, especialmente no Norte e Centro-Oeste,
+        dependem de um único tributo para a maior parte de sua receita, o que os deixa mais
+        expostos a qualquer mudança na política fiscal federal. O crescimento entre 2022 e 2023
+        foi generalizado, mas as regiões Norte e Nordeste se destacaram em termos percentuais.
         </div>
     </div>""", unsafe_allow_html=True)
 with s3:
     st.markdown("""<div class="finding">
         <div class="finding-num">03 · Recomendações</div>
-        <div class="finding-title">Ações orientadas à decisão</div>
+        <div class="finding-title">O que fazer com isso?</div>
         <div class="finding-body">
-        Diversificação: estados com mais de 50% de receita em um único tributo
-        devem ser alvo de políticas de diversificação da base tributária (Q8).
-        Monitoramento: acompanhar CIDE-Combustíveis trimestralmente como proxy
-        de choques econômicos regionais — seu comportamento antecipa variações no PIB.
-        Planejamento: usar a sazonalidade histórica de janeiro e março para
-        calibrar projeções de receita e evitar subestimação do caixa federal no 1º trimestre (Q9).
+        Estados com mais de 50% da arrecadação dependente de um único tributo precisam de atenção:
+        qualquer isenção ou mudança de alíquota pode gerar impacto fiscal imediato e difícil de
+        compensar no curto prazo. O CIDE-Combustíveis vale ser monitorado de perto — historicamente
+        ele antecipa movimentos na economia real. E para o planejamento orçamentário federal,
+        a sazonalidade de janeiro e março deve ser levada em conta nas projeções de caixa,
+        evitando subestimar a receita do primeiro trimestre.
         </div>
     </div>""", unsafe_allow_html=True)
 
