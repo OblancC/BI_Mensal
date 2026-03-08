@@ -179,6 +179,7 @@ if regiao_sel  != "Todas": subtitulo += f" · {regiao_sel}"
 if tributo_sel != "Todos": subtitulo += f" · {tributo_sel}"
 
 st.markdown(f"""
+<div id="topo"></div>
 <div class="page-header">
     <div class="eyebrow">Ministério da Fazenda · Receita Federal do Brasil</div>
     <h1>Resultado da Arrecadação Federal</h1>
@@ -680,6 +681,11 @@ with s3:
         </div>
     </div>""", unsafe_allow_html=True)
 
-st.markdown(f"""<div class="footer">
-    Fonte: Receita Federal do Brasil via Base dos Dados · Projeto Mensal BI · {ano_min}–{ano_max}
+st.markdown(f"""
+<div id="topo"></div>
+<div class="footer" style="display:flex; justify-content:space-between; align-items:center;">
+    <span>Fonte: Receita Federal do Brasil via Base dos Dados · Projeto Mensal BI · {ano_min}–{ano_max}</span>
+    <a href="#topo" style="font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:#111111;
+       background:#f0f0f0; border:1px solid #cccccc; padding:6px 14px; border-radius:4px;
+       text-decoration:none; white-space:nowrap;">↑ Voltar ao topo</a>
 </div>""", unsafe_allow_html=True)
