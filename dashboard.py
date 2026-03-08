@@ -125,16 +125,12 @@ def load_data():
 
 @st.cache_data(show_spinner="Carregando população IBGE...")
 def load_populacao():
-    # Cruzamento com IBGE — br_ibge_populacao.uf (Base dos Dados)
-    # Igual ao notebook Cell [23]: SELECT ano, sigla_uf, populacao FROM basedosdados.br_ibge_populacao.uf
-    url = "https://storage.googleapis.com/basedosdados-public/one-click-download/br_ibge_populacao/uf/br_ibge_populacao_uf.csv.gz"
-    try:
-        df_pop = pd.read_csv(url, compression="gzip")
-        df_pop = df_pop[['ano','sigla_uf','populacao']].dropna()
-        df_pop['ano'] = df_pop['ano'].astype(int)
-        return df_pop
-    except Exception:
-        return pd.DataFrame(columns=['ano','sigla_uf','populacao'])
+    df_pop = pd.read_csv(
+        os.path.join(DATA, "br_ibge_populacao_uf_csv.gz"), compression="gzip"
+    )
+    df_pop = df_pop.dropna(subset=["sigla_uf"])
+    df_pop["ano"] = df_pop["ano"].astype(int)
+    return df_pop[["ano", "sigla_uf", "populacao"]]
 
 df_completo  = load_data()
 df_populacao = load_populacao()
@@ -694,43 +690,8 @@ st.markdown('<div class="question-badge">KPI 5</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Arrecadação per Capita por UF</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-text">Cruzamento da arrecadação federal com as estimativas populacionais do IBGE (2016–2024). Quanto cada habitante representa na arrecadação do seu estado?</div>', unsafe_allow_html=True)
 
-# Estimativas populacionais IBGE por UF (em mil habitantes) — fonte: IBGE Estimativas de População
-POP_IBGE = {
-    'AC': {2016:829,2017:845,2018:869,2019:881,2020:894,2021:906,2022:830,2023:906,2024:923},
-    'AL': {2016:3359,2017:3375,2018:3322,2019:3338,2020:3351,2021:3340,2022:3142,2023:3340,2024:3359},
-    'AM': {2016:3938,2017:4001,2018:4080,2019:4145,2020:4207,2021:4270,2022:3952,2023:4270,2024:4357},
-    'AP': {2016:782,2017:797,2018:829,2019:845,2020:861,2021:877,2022:733,2023:877,2024:903},
-    'BA': {2016:15344,2017:15344,2018:14874,2019:14930,2020:14985,2021:14136,2022:14141,2023:14136,2024:14277},
-    'CE': {2016:8963,2017:9020,2018:9075,2019:9132,2020:9187,2021:8794,2022:8791,2023:8794,2024:8867},
-    'DF': {2016:2977,2017:3040,2018:3015,2019:3015,2020:3055,2021:3094,2022:2817,2023:3094,2024:3149},
-    'ES': {2016:3929,2017:3973,2018:4016,2019:4019,2020:4065,2021:3621,2022:3621,2023:3621,2024:3679},
-    'GO': {2016:6695,2017:6779,2018:6921,2019:7018,2020:7113,2021:7206,2022:6951,2023:7206,2024:7339},
-    'MA': {2016:6954,2017:6999,2018:7000,2019:7035,2020:7076,2021:6574,2022:6574,2023:6574,2024:6654},
-    'MG': {2016:21119,2017:21200,2018:21040,2019:21169,2020:21292,2021:19597,2022:19597,2023:19597,2024:19873},
-    'MS': {2016:2682,2017:2713,2018:2748,2019:2779,2020:2809,2021:2839,2022:2756,2023:2839,2024:2892},
-    'MT': {2016:3305,2017:3345,2018:3441,2019:3484,2020:3526,2021:3568,2022:3526,2023:3568,2024:3659},
-    'PA': {2016:8272,2017:8366,2018:8513,2019:8602,2020:8690,2021:8116,2022:8116,2023:8116,2024:8328},
-    'PB': {2016:3999,2017:4025,2018:3997,2019:4019,2020:4039,2021:3974,2022:3974,2023:3974,2024:4018},
-    'PE': {2016:9410,2017:9473,2018:9496,2019:9558,2020:9616,2021:8796,2022:9058,2023:8796,2024:8933},
-    'PI': {2016:3212,2017:3219,2018:3265,2019:3270,2020:3274,2021:3289,2022:3289,2023:3289,2024:3302},
-    'PR': {2016:11242,2017:11348,2018:11348,2019:11434,2020:11516,2021:11516,2022:11443,2023:11516,2024:11691},
-    'RJ': {2016:16635,2017:16719,2018:17159,2019:17265,2020:17366,2021:16055,2022:16054,2023:16055,2024:16054},
-    'RN': {2016:3479,2017:3509,2018:3482,2019:3507,2020:3534,2021:3534,2022:3302,2023:3534,2024:3584},
-    'RO': {2016:1788,2017:1805,2018:1748,2019:1777,2020:1796,2021:1815,2022:1581,2023:1815,2024:1854},
-    'RR': {2016:505,2017:522,2018:576,2019:605,2020:631,2021:652,2022:636,2023:652,2024:680},
-    'RS': {2016:11286,2017:11329,2018:11329,2019:11377,2020:11422,2021:10882,2022:10880,2023:10882,2024:11088},
-    'SC': {2016:6910,2017:7001,2018:7164,2019:7252,2020:7339,2021:7610,2022:7610,2023:7610,2024:7786},
-    'SE': {2016:2265,2017:2288,2018:2298,2019:2318,2020:2338,2021:2210,2022:2210,2023:2210,2024:2243},
-    'SP': {2016:44749,2017:45094,2018:45538,2019:45919,2020:46290,2021:44420,2022:44420,2023:44420,2024:44749},
-    'TO': {2016:1533,2017:1550,2018:1555,2019:1573,2020:1590,2021:1608,2022:1511,2023:1608,2024:1642},
-}
-
-# Monta DataFrame de população
-pop_rows = []
-for uf, anos in POP_IBGE.items():
-    for ano, pop in anos.items():
-        pop_rows.append({'sigla_uf': uf, 'ano': ano, 'populacao': pop * 1000})
-df_pop = pd.DataFrame(pop_rows)
+# População IBGE — já carregada via load_populacao()
+df_pop = df_populacao
 
 # Arrecadação anual por UF (total, não filtrado para manter base completa)
 df_arrec_ano = df_completo[df_completo['ano'].between(ano_min, ano_max)].groupby(['ano','sigla_uf'])['valor'].sum().reset_index()
