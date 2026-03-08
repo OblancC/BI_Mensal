@@ -485,6 +485,109 @@ fig_empilhado.update_layout(
 )
 st.plotly_chart(fig_empilhado, width="stretch")
 
+
+
+# ─────────────────────────────────────────────
+# GRÁFICO 9 — Crescimento 2022 vs 2023 (Q2)
+# ─────────────────────────────────────────────
+st.markdown('<div class="section-label">Crescimento Estadual 2022 → 2023</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-badge">Questão 2</div>', unsafe_allow_html=True)
+st.markdown('<div class="chart-title">Crescimento Percentual da Arrecadação por Estado</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-text">Quais estados apresentaram o maior crescimento percentual de arrecadação comparando 2022 vs. 2023?</div>', unsafe_allow_html=True)
+
+df_2022 = df_completo[df_completo['ano'] == 2022].groupby('sigla_uf')['valor'].sum()
+df_2023 = df_completo[df_completo['ano'] == 2023].groupby('sigla_uf')['valor'].sum()
+df_cresc = pd.DataFrame({'2022': df_2022, '2023': df_2023}).dropna()
+df_cresc['crescimento_pct'] = ((df_cresc['2023'] / df_cresc['2022']) - 1) * 100
+df_cresc = df_cresc.reset_index().sort_values('crescimento_pct', ascending=True)
+df_cresc['cor'] = df_cresc['crescimento_pct'].apply(lambda x: '#1a5c38' if x >= 0 else '#8b1a1a')
+
+fig_cresc = go.Figure()
+fig_cresc.add_trace(go.Bar(
+    x=df_cresc['crescimento_pct'],
+    y=df_cresc['sigla_uf'],
+    orientation='h',
+    marker_color=df_cresc['cor'],
+    text=df_cresc['crescimento_pct'].apply(lambda x: f"{x:+.1f}%"),
+    textposition='outside',
+    hovertemplate='<b>%{y}</b><br>Crescimento: %{x:.1f}%<extra></extra>'
+))
+fig_cresc.add_vline(x=0, line_color='#333333', line_width=1)
+fig_cresc.update_layout(
+    xaxis_title='Variação % (2022 → 2023)', yaxis_title='',
+    height=600,
+    paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+    font=dict(color='#111111', family='Source Sans 3, sans-serif'),
+    xaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
+    yaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
+    margin=dict(t=20, b=40, l=50, r=80)
+)
+st.plotly_chart(fig_cresc, width="stretch")
+
+# ─────────────────────────────────────────────
+# GRÁFICO 10 — Participação II por região (Q3)
+# ─────────────────────────────────────────────
+st.markdown('<div class="section-label">Imposto de Importação por Região</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-badge">Questão 3</div>', unsafe_allow_html=True)
+st.markdown('<div class="chart-title">Participação Percentual do II na Arrecadação Total por Região</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-text">Qual a participação percentual do Imposto de Importação (II) na arrecadação total de cada região?</div>', unsafe_allow_html=True)
+
+df_ii      = df[df['BK_Tributo'] == 'imposto_importacao']
+tot_reg    = df.groupby('regiao')['valor'].sum()
+ii_reg     = df_ii.groupby('regiao')['valor'].sum()
+pct_ii_reg = (ii_reg / tot_reg * 100).reset_index()
+pct_ii_reg.columns = ['regiao', 'pct']
+pct_ii_reg = pct_ii_reg.dropna().sort_values('pct', ascending=True)
+
+fig_ii = px.bar(
+    pct_ii_reg, x='pct', y='regiao', orientation='h',
+    color='pct', color_continuous_scale='Blues',
+    labels={'pct':'% do II na arrecadação total','regiao':''},
+    text=pct_ii_reg['pct'].apply(lambda x: f"{x:.1f}%")
+)
+fig_ii.update_traces(textposition='outside')
+fig_ii.update_layout(
+    coloraxis_showscale=False,
+    paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+    font=dict(color='#111111', family='Source Sans 3, sans-serif'),
+    xaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
+    yaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
+    margin=dict(t=20, b=40, l=120, r=80)
+)
+st.plotly_chart(fig_ii, width="stretch")
+
+# ─────────────────────────────────────────────
+# GRÁFICO 11 — Volatilidade por tributo (Q10)
+# ─────────────────────────────────────────────
+st.markdown('<div class="section-label">Volatilidade Tributária</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-badge">Questão 10</div>', unsafe_allow_html=True)
+st.markdown('<div class="chart-title">Volatilidade Mensal por Tributo</div>', unsafe_allow_html=True)
+st.markdown('<div class="question-text">Qual tributo possui a maior volatilidade mensal? (Coeficiente de variação — intensidade e frequência das oscilações)</div>', unsafe_allow_html=True)
+
+vol_df = (
+    df.groupby('descricao')['valor'].std() /
+    df.groupby('descricao')['valor'].mean() * 100
+).reset_index()
+vol_df.columns = ['descricao', 'cv']
+vol_df = vol_df.sort_values('cv', ascending=True)
+
+fig_vol = px.bar(
+    vol_df, x='cv', y='descricao', orientation='h',
+    color='cv', color_continuous_scale='Oranges',
+    labels={'cv':'Coeficiente de Variação (%)','descricao':''},
+    text=vol_df['cv'].apply(lambda x: f"{x:.1f}%")
+)
+fig_vol.update_traces(textposition='outside')
+fig_vol.update_layout(
+    coloraxis_showscale=False,
+    paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+    font=dict(color='#111111', family='Source Sans 3, sans-serif'),
+    xaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
+    yaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
+    margin=dict(t=20, b=40, l=180, r=80)
+)
+st.plotly_chart(fig_vol, width="stretch")
+
 # ─────────────────────────────────────────────
 # SÍNTESE
 # ─────────────────────────────────────────────
