@@ -271,6 +271,7 @@ fig_saz.update_layout(
     margin=dict(t=20, b=60, l=60, r=20)
 )
 st.plotly_chart(fig_saz, width="stretch")
+st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 # GRÁFICO 2 + 3 — Top 5 UFs e Tributos (Cells [29] e [31])
@@ -299,6 +300,7 @@ with c1:
         margin=dict(t=20, b=40, l=60, r=20)
     )
     st.plotly_chart(fig_ranking, width="stretch")
+    st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
 with c2:
     st.markdown('<div class="question-badge">Questões 4 · 5</div>', unsafe_allow_html=True)
@@ -321,6 +323,7 @@ with c2:
         margin=dict(t=20, b=40, l=160, r=20)
     )
     st.plotly_chart(fig_tributos, width="stretch")
+    st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 # GRÁFICO 4 — Evolução mensal por UF (Cell [36])
@@ -361,6 +364,7 @@ fig_evol.update_yaxes(
     tickfont=dict(color='#111111'), title_font=dict(color='#111111')
 )
 st.plotly_chart(fig_evol, width="stretch")
+st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 # GRÁFICO 5 — Sazonalidade IPI (Cell [43])
@@ -390,6 +394,7 @@ fig_ipi.update_layout(
 fig_ipi.update_xaxes(tickmode='linear', tick0=1, dtick=1,
                      tickvals=list(range(1,13)), ticktext=list(NOMES_MES.values()))
 st.plotly_chart(fig_ipi, width="stretch")
+st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 # GRÁFICO 6 — IPI Bebidas por estação (Cell [47])
@@ -453,6 +458,7 @@ fig_beb.update_layout(
     margin=dict(t=20, b=80, l=60, r=20)
 )
 st.plotly_chart(fig_beb, width="stretch")
+st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 # GRÁFICO 7 — Tributo dominante por UF (Cell [49])
@@ -497,6 +503,7 @@ fig_dom.update_layout(
     xaxis=dict(gridcolor='#e5e7eb', range=[0, 105], tickfont=dict(color='#111111'), title_font=dict(color='#111111'))
 )
 st.plotly_chart(fig_dom, width="stretch")
+st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 # GRÁFICO 8 — Evolução mensal empilhada (Cell [51])
@@ -527,6 +534,7 @@ fig_empilhado.update_layout(
     margin=dict(t=60, b=40, l=60, r=20)
 )
 st.plotly_chart(fig_empilhado, width="stretch")
+st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
 
 
@@ -567,6 +575,7 @@ fig_cresc.update_layout(
     margin=dict(t=20, b=40, l=50, r=80)
 )
 st.plotly_chart(fig_cresc, width="stretch")
+st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 # GRÁFICO 10 — Participação II por região (Q3)
@@ -600,6 +609,7 @@ fig_ii.update_layout(
     margin=dict(t=20, b=40, l=120, r=80)
 )
 st.plotly_chart(fig_ii, width="stretch")
+st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 # GRÁFICO 11 — Volatilidade por tributo (Q10)
@@ -633,6 +643,7 @@ fig_vol.update_layout(
     margin=dict(t=20, b=40, l=180, r=80)
 )
 st.plotly_chart(fig_vol, width="stretch")
+st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 # SÍNTESE
@@ -682,10 +693,8 @@ with s3:
     </div>""", unsafe_allow_html=True)
 
 st.markdown(f"""
-<div id="topo"></div>
-<div class="footer" style="display:flex; justify-content:space-between; align-items:center;">
-    <span>Fonte: Receita Federal do Brasil via Base dos Dados · Projeto Mensal BI · {ano_min}–{ano_max}</span>
-    <a href="#topo" style="font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:#111111;
-       background:#f0f0f0; border:1px solid #cccccc; padding:6px 14px; border-radius:4px;
-       text-decoration:none; white-space:nowrap;">↑ Voltar ao topo</a>
-</div>""", unsafe_allow_html=True)
+<div class="footer">
+    Fonte: Receita Federal do Brasil via Base dos Dados · Projeto Mensal BI · {ano_min}–{ano_max}
+</div>
+
+""", unsafe_allow_html=True)
