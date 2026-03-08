@@ -219,12 +219,16 @@ v_2023 = df_yoy_base[df_yoy_base['ano'] == 2023]['valor'].sum()
 if v_2022 > 0:
     yoy = ((v_2023 / v_2022) - 1) * 100
 
-uf_shares    = df.groupby('sigla_uf')['valor'].sum()
+uf_shares    = df.groupby('sigla_uf')['valor'].sum().sort_values(ascending=False)
 uf_lider     = uf_shares.idxmax() if not uf_shares.empty else "—"
 uf_share_pct = uf_shares.max() / uf_shares.sum() * 100 if not uf_shares.empty else 0
+top3_uf      = (uf_shares / uf_shares.sum() * 100).head(3).reset_index()
+top3_uf.columns = ['sigla_uf', 'share_pct']
 
-vol      = df.groupby('descricao')['valor'].std() / df.groupby('descricao')['valor'].mean()
-trib_vol = vol.idxmax() if not vol.empty else "—"
+vol         = df.groupby('descricao')['valor'].std() / df.groupby('descricao')['valor'].mean()
+trib_vol    = vol.idxmax() if not vol.empty else "—"
+top3_vol    = vol.sort_values(ascending=False).head(3).reset_index()
+top3_vol.columns = ['descricao', 'cv']
 
 # KPI 5 — Top 5 maiores per capita individuais (UF × ano) no período filtrado
 _arrec_pc  = df_completo[df_completo['ano'].between(ano_min, ano_max)].groupby(['ano','sigla_uf'])['valor'].sum().reset_index()
@@ -300,23 +304,52 @@ with k2:
         <div class="kpi-note">2022 → 2023</div>
     </div>""", unsafe_allow_html=True)
 with k3:
-    st.markdown(f"""<div class="kpi-wrap">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-            <div class="kpi-eyebrow">Estado líder</div>
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.55rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;">KPI 3</span>
-        </div>
-        <div class="kpi-number">{uf_lider}</div>
-        <div class="kpi-note">{uf_share_pct:.1f}% do total nacional</div>
-    </div>""", unsafe_allow_html=True)
+    pos3 = ['1º','2º','3º']
+    cor3 = ['#b8860b','#707070','#8b4513']
+    rows3_uf = ""
+    for i, row in enumerate(top3_uf.itertuples()):
+        rows3_uf += (
+            f'<div style="display:flex;justify-content:space-between;font-size:0.78rem;padding:2px 0;border-bottom:1px solid #f0f0f0;">'
+            f'<span style="display:flex;gap:5px;">'
+            f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.65rem;color:{cor3[i]};font-weight:600;">{pos3[i]}</span>'
+            f'<span style="font-weight:600;color:{cor3[i]};">{row.sigla_uf}</span>'
+            f'</span>'
+            f'<span style="color:#333;font-family:IBM Plex Mono,monospace;font-size:0.72rem;">{row.share_pct:.1f}%</span>'
+            f'</div>'
+        )
+    html_k3 = (
+        f'<div class="kpi-wrap">'
+        f'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
+        f'<div class="kpi-eyebrow">Top 3 estados · market share</div>'
+        f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.55rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;">KPI 3</span>'
+        f'</div>'
+        f'{rows3_uf}'
+        f'</div>'
+    )
+    st.markdown(html_k3, unsafe_allow_html=True)
 with k4:
-    st.markdown(f"""<div class="kpi-wrap">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-            <div class="kpi-eyebrow">Maior volatilidade</div>
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.55rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;">KPI 4</span>
-        </div>
-        <div class="kpi-number" style="font-size:1rem;padding-top:8px">{trib_vol}</div>
-        <div class="kpi-note">coef. de variação mais alto</div>
-    </div>""", unsafe_allow_html=True)
+    rows3_vol = ""
+    for i, row in enumerate(top3_vol.itertuples()):
+        nome_curto = row.descricao.replace('IMPOSTO ','II ').replace('CIDE ','CIDE ').replace(' DEMAIS EMPRESAS','')
+        rows3_vol += (
+            f'<div style="display:flex;justify-content:space-between;font-size:0.75rem;padding:2px 0;border-bottom:1px solid #f0f0f0;">'
+            f'<span style="display:flex;gap:5px;align-items:center;">'
+            f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.65rem;color:{cor3[i]};font-weight:600;">{pos3[i]}</span>'
+            f'<span style="font-weight:600;color:{cor3[i]};font-size:0.72rem;">{nome_curto}</span>'
+            f'</span>'
+            f'<span style="color:#333;font-family:IBM Plex Mono,monospace;font-size:0.72rem;">{row.cv:.2f}</span>'
+            f'</div>'
+        )
+    html_k4 = (
+        f'<div class="kpi-wrap">'
+        f'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
+        f'<div class="kpi-eyebrow">Top 3 volatilidade · CV</div>'
+        f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.55rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;">KPI 4</span>'
+        f'</div>'
+        f'{rows3_vol}'
+        f'</div>'
+    )
+    st.markdown(html_k4, unsafe_allow_html=True)
 with k5:
     posicoes = ['1º', '2º', '3º', '4º', '5º']
     cores    = ['#b8860b', '#707070', '#8b4513', '#333333', '#333333']
