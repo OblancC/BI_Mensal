@@ -126,7 +126,7 @@ def load_data():
 @st.cache_data(show_spinner="Carregando população IBGE...")
 def load_populacao():
     df_pop = pd.read_csv(
-        os.path.join(DATA, "br_ibge_populacao_uf_csv.gz"), compression="gzip"
+        os.path.join(DATA, "br_ibge_populacao_uf.csv.gz"), compression="gzip"
     )
     df_pop = df_pop.dropna(subset=["sigla_uf"])
     df_pop["ano"] = df_pop["ano"].astype(int)
