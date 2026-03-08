@@ -177,11 +177,11 @@ with st.sidebar:
     text-decoration: none;
     transition: background 0.15s;
 }
-.kpi-nav a:hover { background: #f0f0f0; }
+.kpi-nav a:hover { background: #e8e8e8; }
 .kpi-nav .kpi-tag {
     font-size: 0.6rem;
     background: #111111;
-    color: #fff;
+    color: #ffffff;
     padding: 1px 5px;
     border-radius: 2px;
     margin-right: 6px;
@@ -318,20 +318,39 @@ with k4:
         <div class="kpi-note">coef. de variação mais alto</div>
     </div>""", unsafe_allow_html=True)
 with k5:
-    top5_rows = "".join([
-        f'<div style="display:flex;justify-content:space-between;font-size:0.78rem;padding:2px 0;border-bottom:1px solid #f0f0f0;">'
-        f'<span style="font-weight:600;color:#111;">{row.sigla_uf} <span style="font-weight:400;color:#888;font-size:0.7rem;">{row.ano}</span></span>'
-        f'<span style="color:#555;font-family:\'IBM Plex Mono\',monospace;">R$ {row.per_capita:,.0f}</span>'
+    posicoes = ['1º', '2º', '3º', '4º', '5º']
+    cores    = ['#b8860b', '#707070', '#8b4513', '#333333', '#333333']
+    top5_rows = ""
+    for i, row in enumerate(_top5_pc.itertuples()):
+        pos   = posicoes[i]
+        cor   = cores[i]
+        uf    = row.sigla_uf
+        ano_r = row.ano
+        pc    = f"R$ {row.per_capita:,.0f}"
+        top5_rows += (
+            f'<div style="display:flex;justify-content:space-between;align-items:center;'
+            f'font-size:0.78rem;padding:3px 0;border-bottom:1px solid #f0f0f0;">'
+            f'<span style="display:flex;align-items:center;gap:5px;">'
+            f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.65rem;color:{cor};font-weight:600;">{pos}</span>'
+            f'<span style="font-weight:600;color:{cor};">{uf}</span>'
+            f'<span style="color:#aaa;font-size:0.68rem;">{ano_r}</span>'
+            f'</span>'
+            f'<span style="color:#333;font-family:IBM Plex Mono,monospace;font-size:0.72rem;">{pc}</span>'
+            f'</div>'
+        )
+    header_kpi5 = f'<div class="kpi-eyebrow">Top 5 per capita · {ano_min}–{ano_max}</div>'
+    html_kpi5 = (
+        f'<div class="kpi-wrap">'
+        f'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
+        f'{header_kpi5}'
+        f'<span style="font-family:IBM Plex Mono,monospace;font-size:0.55rem;background:#111111;'
+        f'color:#fff;padding:1px 6px;border-radius:2px;">'
+        f'<a href="#kpi5" style="color:#fff;text-decoration:none;">KPI 5</a></span>'
         f'</div>'
-        for row in _top5_pc.itertuples()
-    ])
-    st.markdown(f"""<div class="kpi-wrap">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <div class="kpi-eyebrow">Top 5 per capita · {ano_min}–{ano_max}</div>
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.55rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;"><a href="#kpi5" style="color:#fff;text-decoration:none;">KPI 5</a></span>
-        </div>
-        {top5_rows}
-    </div>""", unsafe_allow_html=True)
+        f'{top5_rows}'
+        f'</div>'
+    )
+    st.markdown(html_kpi5, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 # GRÁFICO 1 — Sazonalidade (Cell [27])
