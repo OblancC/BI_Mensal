@@ -155,16 +155,24 @@ with st.sidebar:
     display: block;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.72rem;
-    color: #ffffff;
-    background: #333333;
-    border: 1px solid #444444;
+    color: #ffffff !important;
+    background: #111111;
+    border: 1px solid #333333;
     border-radius: 3px;
     padding: 6px 12px;
     margin-bottom: 6px;
     text-decoration: none;
     transition: background 0.15s;
 }
-.kpi-nav a:hover { background: #444444; }
+.kpi-nav a:hover { background: #222222; }
+.kpi-nav .kpi-tag {
+    font-size: 0.6rem;
+    background: #444444;
+    color: #ffffff !important;
+    padding: 1px 5px;
+    border-radius: 2px;
+    margin-right: 6px;
+}
 .kpi-nav .kpi-tag {
     font-size: 0.6rem;
     background: #111111;
