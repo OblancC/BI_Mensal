@@ -160,6 +160,42 @@ with st.sidebar:
     st.divider()
     st.caption("Dados de 2016 a 2024")
 
+    st.divider()
+    st.markdown("**Ir para KPI**")
+    st.markdown("""
+<style>
+.kpi-nav a {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: #111111;
+    background: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    padding: 6px 12px;
+    margin-bottom: 6px;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+.kpi-nav a:hover { background: #f0f0f0; }
+.kpi-nav .kpi-tag {
+    font-size: 0.6rem;
+    background: #111111;
+    color: #fff;
+    padding: 1px 5px;
+    border-radius: 2px;
+    margin-right: 6px;
+}
+</style>
+<div class="kpi-nav">
+  <a href="#kpis"><span class="kpi-tag">KPI 1</span>Arrecadação Total</a>
+  <a href="#kpis"><span class="kpi-tag">KPI 2</span>Crescimento Anual</a>
+  <a href="#kpis"><span class="kpi-tag">KPI 3</span>Estado Líder</a>
+  <a href="#kpis"><span class="kpi-tag">KPI 4</span>Maior Volatilidade</a>
+  <a href="#kpi5"><span class="kpi-tag">KPI 5</span>Per Capita · IBGE</a>
+</div>
+""", unsafe_allow_html=True)
+
 # ─────────────────────────────────────────────
 # FILTRO
 # ─────────────────────────────────────────────
@@ -189,6 +225,14 @@ uf_share_pct = uf_shares.max() / uf_shares.sum() * 100 if not uf_shares.empty el
 
 vol      = df.groupby('descricao')['valor'].std() / df.groupby('descricao')['valor'].mean()
 trib_vol = vol.idxmax() if not vol.empty else "—"
+
+# KPI 5 — Top 5 per capita (ano mais recente disponível no filtro, máx 2023)
+_ano_pc_kpi = min(ano_max, 2023)
+_arrec_pc   = df_completo[df_completo['ano'] == _ano_pc_kpi].groupby('sigla_uf')['valor'].sum().reset_index()
+_pop_pc     = df_populacao[df_populacao['ano'] == _ano_pc_kpi][['sigla_uf','populacao']]
+_df_pc_kpi  = _arrec_pc.merge(_pop_pc, on='sigla_uf', how='left')
+_df_pc_kpi['per_capita'] = _df_pc_kpi['valor'] / _df_pc_kpi['populacao']
+_top5_pc    = _df_pc_kpi.nlargest(5, 'per_capita')[['sigla_uf','per_capita']]
 
 # ─────────────────────────────────────────────
 # HEADER
@@ -235,7 +279,7 @@ with st.expander("📋 Perguntas Analíticas — clique para navegar", expanded=
 """, unsafe_allow_html=True)
 
 st.markdown('<div id="kpis"></div>', unsafe_allow_html=True)
-k1, k2, k3, k4 = st.columns(4)
+k1, k2, k3, k4, k5 = st.columns(5)
 with k1:
     st.markdown(f"""<div class="kpi-wrap">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
@@ -273,6 +317,21 @@ with k4:
         </div>
         <div class="kpi-number" style="font-size:1rem;padding-top:8px">{trib_vol}</div>
         <div class="kpi-note">coef. de variação mais alto</div>
+    </div>""", unsafe_allow_html=True)
+with k5:
+    top5_rows = "".join([
+        f'<div style="display:flex;justify-content:space-between;font-size:0.78rem;padding:2px 0;border-bottom:1px solid #f0f0f0;">'
+        f'<span style="font-weight:600;color:#111;">{row.sigla_uf}</span>'
+        f'<span style="color:#555;font-family:\'IBM Plex Mono\',monospace;">R$ {row.per_capita:,.0f}</span>'
+        f'</div>'
+        for row in _top5_pc.itertuples()
+    ])
+    st.markdown(f"""<div class="kpi-wrap">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <div class="kpi-eyebrow">Top 5 per capita · {_ano_pc_kpi}</div>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.55rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;"><a href="#kpi5" style="color:#fff;text-decoration:none;">KPI 5</a></span>
+        </div>
+        {top5_rows}
     </div>""", unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
