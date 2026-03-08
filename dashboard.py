@@ -260,7 +260,7 @@ with c1:
         df_top5, x='sigla_uf', y='valor_B',
         labels={'valor_B':'Total em Bilhões (R$)', 'sigla_uf':'Estado'},
         color='valor_B', text_auto='.2f',
-        color_continuous_scale=[(0,'#6baed6'),(1,'#08306b')]
+        color_continuous_scale='Sunset'
     )
     fig_ranking.update_layout(
         yaxis_ticksuffix=' B', coloraxis_showscale=False,
@@ -281,7 +281,7 @@ with c2:
         df_tributo_rank, x='valor_B', y='descricao', orientation='h',
         labels={'valor_B':'Total (R$ Bilhões)', 'descricao':'Tributo'},
         text_auto='.2f', color='valor_B',
-        color_continuous_scale=[(0,'#6baed6'),(1,'#08306b')]
+        color_continuous_scale='Sunset'
     )
     fig_tributos.update_layout(
         yaxis={'categoryorder':'total ascending', 'gridcolor':'#e0e0e0', 'tickfont':{'color':'#111111'}, 'title_font':{'color':'#111111'}}, height=400,
@@ -550,7 +550,7 @@ pct_ii_reg = pct_ii_reg.dropna().sort_values('pct', ascending=True)
 
 fig_ii = px.bar(
     pct_ii_reg, x='pct', y='regiao', orientation='h',
-    color='pct', color_continuous_scale=[(0,'#6baed6'),(1,'#08306b')],
+    color='pct', color_continuous_scale='Sunset',
     labels={'pct':'% do II na arrecadação total','regiao':''},
     text=pct_ii_reg['pct'].apply(lambda x: f"{x:.1f}%")
 )
