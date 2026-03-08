@@ -278,8 +278,6 @@ with st.expander("📋 Perguntas Analíticas — clique para navegar", expanded=
   <a class="qa-item" href="#q8"><span class="qa-num">Q8</span><span class="qa-text">Quais UFs são mais dependentes de um único tributo?</span></a>
   <a class="qa-item" href="#q9"><span class="qa-num">Q9</span><span class="qa-text">Qual mês do ano historicamente concentra mais arrecadação?</span></a>
   <a class="qa-item" href="#q10"><span class="qa-num">Q10</span><span class="qa-text">Qual tributo possui a maior volatilidade mensal?</span></a>
-  <a class="qa-item" href="#kpi5"><span class="qa-num">KPI 5</span><span class="qa-text">Qual a arrecadação per capita por UF? (cruzamento com IBGE)</span></a>
-  <a class="qa-item" href="#kpis"><span class="qa-num">KPI 1–4</span><span class="qa-text">Arrecadação total · Crescimento YoY · Estado líder · Maior volatilidade</span></a>
 </div>
 """, unsafe_allow_html=True)
 
