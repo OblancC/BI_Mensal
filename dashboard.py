@@ -5,9 +5,6 @@ import plotly.graph_objects as go
 import os
 from datetime import datetime
 
-# ─────────────────────────────────────────────
-# CONFIG
-# ─────────────────────────────────────────────
 st.set_page_config(
     page_title="Arrecadação Federal · RFB",
     page_icon="📊",
@@ -62,9 +59,6 @@ section[data-testid="stSidebar"] .stSlider label { color: #111111 !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────
-# MAPEAMENTOS
-# ─────────────────────────────────────────────
 REGIOES = {
     'AC':'Norte','AM':'Norte','PA':'Norte','RO':'Norte','RR':'Norte','AP':'Norte','TO':'Norte',
     'MA':'Nordeste','PI':'Nordeste','CE':'Nordeste','RN':'Nordeste','PB':'Nordeste',
@@ -96,9 +90,6 @@ CORES_TRIBUTO = {
     'IPI BEBIDAS':'#ec4899','CIDE COMBUSTIVEIS':'#14b8a6'
 }
 
-# ─────────────────────────────────────────────
-# ETL — replica o notebook
-# ─────────────────────────────────────────────
 DATA = "Data"
 
 @st.cache_data(show_spinner="Processando dados...")
@@ -110,7 +101,6 @@ def load_data():
     for col in COLS_TRIBUTOS:
         df_raw[col] = pd.to_numeric(df_raw[col], errors='coerce').fillna(0)
 
-    # unpivot — igual ao notebook
     df_completo = pd.melt(
         df_raw,
         id_vars=['ano','mes','nome_mes','estacao','sigla_uf','regiao'],
@@ -135,9 +125,6 @@ def load_populacao():
 df_completo  = load_data()
 df_populacao = load_populacao()
 
-# ─────────────────────────────────────────────
-# SIDEBAR
-# ─────────────────────────────────────────────
 with st.sidebar:
     st.markdown("### Arrecadação Federal")
     st.caption("Receita Federal do Brasil")
@@ -196,20 +183,13 @@ with st.sidebar:
 </div>
 """, unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────
-# FILTRO
-# ─────────────────────────────────────────────
 df = df_completo[df_completo['ano'].between(ano_min, ano_max)].copy()
 if regiao_sel  != "Todas": df = df[df['regiao']    == regiao_sel]
 if tributo_sel != "Todos": df = df[df['descricao'] == tributo_sel]
 
-# ─────────────────────────────────────────────
-# KPIs — Cell [21] do notebook
-# ─────────────────────────────────────────────
 total = df['valor'].sum()
 anos_kpi = sorted(df['ano'].unique())
 
-# YoY fixo 2022 -> 2023 (2024 incompleto, conforme notebook)
 yoy = 0
 df_yoy_base = df_completo[df_completo['ano'].isin([2022, 2023])]
 if regiao_sel  != 'Todas': df_yoy_base = df_yoy_base[df_yoy_base['regiao']    == regiao_sel]
@@ -228,11 +208,9 @@ top3_uf.columns = ['sigla_uf', 'share_pct']
 vol         = df.groupby('descricao')['valor'].std() / df.groupby('descricao')['valor'].mean()
 trib_vol    = vol.idxmax() if not vol.empty else "—"
 
-# KPI 4 — Mix de impostos: participação % de cada tributo no total
 _mix = df.groupby('descricao')['valor'].sum().sort_values(ascending=False).reset_index()
 _mix_total = _mix['valor'].sum()
 _mix['share_pct'] = _mix['valor'] / _mix_total * 100
-# Label curto para exibição
 _LABEL = {
     'IRPJ DEMAIS EMPRESAS':'IRPJ',
     'IMPOSTO IMPORTACAO':'Imp. Import.',
@@ -246,16 +224,12 @@ _LABEL = {
 }
 _mix['label'] = _mix['descricao'].map(_LABEL).fillna(_mix['descricao'])
 
-# KPI 5 — Top 5 maiores per capita individuais (UF × ano) no período filtrado
 _arrec_pc  = df_completo[df_completo['ano'].between(ano_min, ano_max)].groupby(['ano','sigla_uf'])['valor'].sum().reset_index()
 _pop_pc    = df_populacao[df_populacao['ano'].between(ano_min, ano_max)][['ano','sigla_uf','populacao']]
 _df_pc_kpi = _arrec_pc.merge(_pop_pc, on=['ano','sigla_uf'], how='left')
 _df_pc_kpi['per_capita'] = _df_pc_kpi['valor'] / _df_pc_kpi['populacao']
 _top5_pc   = _df_pc_kpi.nlargest(5, 'per_capita')[['sigla_uf','ano','per_capita']]
 
-# ─────────────────────────────────────────────
-# HEADER
-# ─────────────────────────────────────────────
 subtitulo = f"Análise tributária · {ano_min}–{ano_max}"
 if regiao_sel  != "Todas": subtitulo += f" · {regiao_sel}"
 if tributo_sel != "Todos": subtitulo += f" · {tributo_sel}"
@@ -404,10 +378,6 @@ with k5:
     )
     st.markdown(html_kpi5, unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────
-# GRÁFICO 1 — Sazonalidade (Cell [27])
-# Sazonalidade da Arrecadação por mês/ano
-# ─────────────────────────────────────────────
 st.markdown('<div id="q9"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Análise de Sazonalidade</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 9</div>', unsafe_allow_html=True)
@@ -436,9 +406,6 @@ fig_saz.update_layout(
 st.plotly_chart(fig_saz, width="stretch")
 st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────
-# GRÁFICO 2 + 3 — Top 5 UFs e Tributos (Cells [29] e [31])
-# ─────────────────────────────────────────────
 st.markdown('<div id="q6"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Ranking de Arrecadação</div>', unsafe_allow_html=True)
 c1, c2 = st.columns(2)
@@ -488,9 +455,6 @@ with c2:
     st.plotly_chart(fig_tributos, width="stretch")
     st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────
-# GRÁFICO 4 — Evolução mensal por UF (Cell [36])
-# ─────────────────────────────────────────────
 st.markdown('<div id="q1"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Evolução Geográfica</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 1</div>', unsafe_allow_html=True)
@@ -529,9 +493,6 @@ fig_evol.update_yaxes(
 st.plotly_chart(fig_evol, width="stretch")
 st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────
-# GRÁFICO 5 — Sazonalidade IPI (Cell [43])
-# ─────────────────────────────────────────────
 st.markdown('<div id="q4"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">IPI Setorial</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questões 4 · 5</div>', unsafe_allow_html=True)
@@ -560,9 +521,6 @@ fig_ipi.update_xaxes(tickmode='linear', tick0=1, dtick=1,
 st.plotly_chart(fig_ipi, width="stretch")
 st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────
-# GRÁFICO 6 — IPI Bebidas por estação (Cell [47])
-# ─────────────────────────────────────────────
 st.markdown('<div id="q7"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Sazonalidade Estacional</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 7</div>', unsafe_allow_html=True)
@@ -624,9 +582,6 @@ fig_beb.update_layout(
 st.plotly_chart(fig_beb, width="stretch")
 st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────
-# GRÁFICO 7 — Tributo dominante por UF (Cell [49])
-# ─────────────────────────────────────────────
 st.markdown('<div id="q8"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Dependência Tributária por UF</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 8</div>', unsafe_allow_html=True)
@@ -670,9 +625,6 @@ fig_dom.update_layout(
 st.plotly_chart(fig_dom, width="stretch")
 st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────
-# GRÁFICO 8 — Evolução mensal empilhada (Cell [51])
-# ─────────────────────────────────────────────
 st.markdown('<div id="q9b"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Composição Mensal Histórica</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 9</div>', unsafe_allow_html=True)
@@ -703,9 +655,6 @@ st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-f
 
 
 
-# ─────────────────────────────────────────────
-# GRÁFICO 9 — Crescimento 2022 vs 2023 (Q2)
-# ─────────────────────────────────────────────
 st.markdown('<div id="q2"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Crescimento Estadual 2022 → 2023</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 2</div>', unsafe_allow_html=True)
@@ -742,9 +691,6 @@ fig_cresc.update_layout(
 st.plotly_chart(fig_cresc, width="stretch")
 st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────
-# GRÁFICO 10 — Participação II por região (Q3)
-# ─────────────────────────────────────────────
 st.markdown('<div id="q3"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Imposto de Importação por Região</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 3</div>', unsafe_allow_html=True)
@@ -776,9 +722,6 @@ fig_ii.update_layout(
 st.plotly_chart(fig_ii, width="stretch")
 st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────
-# GRÁFICO 11 — Volatilidade por tributo (Q10)
-# ─────────────────────────────────────────────
 st.markdown('<div id="q10"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Volatilidade Tributária</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">Questão 10</div>', unsafe_allow_html=True)
@@ -810,24 +753,18 @@ fig_vol.update_layout(
 st.plotly_chart(fig_vol, width="stretch")
 st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────
-# GRÁFICO 12 — Arrecadação per Capita (KPI 5 / IBGE)
-# ─────────────────────────────────────────────
 st.markdown('<div id="kpi5"></div>', unsafe_allow_html=True)
 st.markdown('<div class="section-label">Cruzamento com IBGE · Arrecadação per Capita</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-badge">KPI 5</div>', unsafe_allow_html=True)
 st.markdown('<div class="chart-title">Arrecadação per Capita por UF</div>', unsafe_allow_html=True)
 st.markdown('<div class="question-text">Cruzamento da arrecadação federal com as estimativas populacionais do IBGE (2016–2024). Quanto cada habitante representa na arrecadação do seu estado?</div>', unsafe_allow_html=True)
 
-# População IBGE — já carregada via load_populacao()
 df_pop = df_populacao
 
-# Arrecadação anual por UF (total, não filtrado para manter base completa)
 df_arrec_ano = df_completo[df_completo['ano'].between(ano_min, ano_max)].groupby(['ano','sigla_uf'])['valor'].sum().reset_index()
 df_pc = df_arrec_ano.merge(df_pop, on=['ano','sigla_uf'], how='left')
 df_pc['per_capita'] = df_pc['valor'] / df_pc['populacao']
 
-# Ano selecionado para o ranking
 ano_pc = st.select_slider("Ano de referência", options=list(range(ano_min, min(ano_max, 2024)+1)), value=2023)
 df_pc_ano = df_pc[df_pc['ano'] == ano_pc].sort_values('per_capita', ascending=True)
 
@@ -851,7 +788,6 @@ st.caption("Fonte: arrecadação RFB / população IBGE — Estimativas de Popul
 st.markdown('''<a href="#topo" style="display:inline-block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#888888;text-decoration:none;border:1px solid #e0e0e0;padding:3px 10px;border-radius:3px;">↑ voltar ao topo</a>''', unsafe_allow_html=True)
 
 
-# ─────────────────────────────────────────────
 st.markdown('<div class="section-label">Data Storytelling · Síntese Analítica</div>', unsafe_allow_html=True)
 s1, s2, s3 = st.columns(3)
 with s1:
