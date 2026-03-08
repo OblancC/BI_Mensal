@@ -226,13 +226,15 @@ uf_share_pct = uf_shares.max() / uf_shares.sum() * 100 if not uf_shares.empty el
 vol      = df.groupby('descricao')['valor'].std() / df.groupby('descricao')['valor'].mean()
 trib_vol = vol.idxmax() if not vol.empty else "—"
 
-# KPI 5 — Top 5 per capita (ano mais recente disponível no filtro, máx 2023)
-_ano_pc_kpi = min(ano_max, 2023)
-_arrec_pc   = df_completo[df_completo['ano'] == _ano_pc_kpi].groupby('sigla_uf')['valor'].sum().reset_index()
-_pop_pc     = df_populacao[df_populacao['ano'] == _ano_pc_kpi][['sigla_uf','populacao']]
-_df_pc_kpi  = _arrec_pc.merge(_pop_pc, on='sigla_uf', how='left')
-_df_pc_kpi['per_capita'] = _df_pc_kpi['valor'] / _df_pc_kpi['populacao']
-_top5_pc    = _df_pc_kpi.nlargest(5, 'per_capita')[['sigla_uf','per_capita']]
+# KPI 5 — Top 5 per capita acumulado no período filtrado
+_arrec_pc  = df_completo[df_completo['ano'].between(ano_min, ano_max)].groupby(['ano','sigla_uf'])['valor'].sum().reset_index()
+_pop_pc    = df_populacao[df_populacao['ano'].between(ano_min, ano_max)][['ano','sigla_uf','populacao']]
+_df_pc_kpi = _arrec_pc.merge(_pop_pc, on=['ano','sigla_uf'], how='left')
+_total_arr = _df_pc_kpi.groupby('sigla_uf')['valor'].sum().reset_index().rename(columns={'valor':'total_valor'})
+_total_pop = _df_pc_kpi.groupby('sigla_uf')['populacao'].mean().reset_index().rename(columns={'populacao':'pop_media'})
+_df_pc_kpi = _total_arr.merge(_total_pop, on='sigla_uf')
+_df_pc_kpi['per_capita'] = _df_pc_kpi['total_valor'] / _df_pc_kpi['pop_media']
+_top5_pc   = _df_pc_kpi.nlargest(5, 'per_capita')[['sigla_uf','per_capita']]
 
 # ─────────────────────────────────────────────
 # HEADER
@@ -328,7 +330,7 @@ with k5:
     ])
     st.markdown(f"""<div class="kpi-wrap">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <div class="kpi-eyebrow">Top 5 per capita · {_ano_pc_kpi}</div>
+            <div class="kpi-eyebrow">Top 5 per capita · {ano_min}–{ano_max}</div>
             <span style="font-family:'IBM Plex Mono',monospace;font-size:0.55rem;background:#111111;color:#fff;padding:1px 6px;border-radius:2px;"><a href="#kpi5" style="color:#fff;text-decoration:none;">KPI 5</a></span>
         </div>
         {top5_rows}
