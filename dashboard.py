@@ -583,7 +583,8 @@ if not df_peso.empty:
 fig_beb.update_layout(
     xaxis_title='Mês/Ano', yaxis_title='% da Arrecadação Total',
     xaxis=dict(tickformat='%b/%Y', tickangle=-45, tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
-    height=500, hovermode='x unified', legend_title='Estação',
+    height=500, hovermode='x unified',
+    legend=dict(title='Estação', font=dict(color='#111111'), title_font=dict(color='#111111')),
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
     font=dict(color='#111111', family='Source Sans 3, sans-serif'),
     yaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
