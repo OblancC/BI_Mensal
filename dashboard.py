@@ -655,7 +655,7 @@ for ano in sorted(df_mes_ano['ano'].unique()):
 fig_empilhado.update_layout(
     barmode='stack',
     xaxis_title='Mês', yaxis_title='R$ Bilhões',
-    legend=dict(orientation='h', yanchor='bottom', y=1.02),
+    legend=dict(orientation='h', yanchor='bottom', y=1.02, font=dict(color='#111111'), title_font=dict(color='#111111')),
     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
     font=dict(color='#111111', family='Source Sans 3, sans-serif'),
     xaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')), yaxis=dict(gridcolor='#e0e0e0', tickfont=dict(color='#111111'), title_font=dict(color='#111111')),
