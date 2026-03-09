@@ -775,7 +775,9 @@ df_arrec_ano = df_completo[df_completo['ano'].between(ano_min, ano_max)].groupby
 df_pc = df_arrec_ano.merge(df_pop, on=['ano','sigla_uf'], how='left')
 df_pc['per_capita'] = df_pc['valor'] / df_pc['populacao']
 
-ano_pc = st.select_slider("Ano de referência", options=list(range(ano_min, min(ano_max, 2024)+1)), value=2023)
+_anos_pc = list(range(ano_min, min(ano_max, 2024)+1))
+_val_pc  = min(2023, max(_anos_pc))
+ano_pc = st.select_slider("Ano de referência", options=_anos_pc, value=_val_pc)
 df_pc_ano = df_pc[df_pc['ano'] == ano_pc].sort_values('per_capita', ascending=True)
 
 fig_pc = px.bar(
